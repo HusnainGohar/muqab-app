@@ -1,0 +1,6 @@
+export const loginScreen =  'login-screen'
+export const registerScreen =  'register-screen'
+export const verifyOtpScreen =  'verify-otp-screen'
+export const resetPasswordScreen =  'reset-password-screen'
+export const forgetPasswordScreen =  'forget-password-screen'
+export const changePasswordScreen =  'change-password-screen'
