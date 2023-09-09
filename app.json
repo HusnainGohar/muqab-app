@@ -1,4 +1,7 @@
 {
   "name": "MUQAB",
-  "displayName": "MUQAB"
+  "displayName": "MUQAB",
+  "packagerOpts": {
+    "config": "metro.config.js"
+  }
 }
