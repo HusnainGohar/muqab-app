@@ -1,3 +1,4 @@
 export * from './button'
 export * from './input-field'
-export * from './title'
+export * from './text'
+export * from './link'

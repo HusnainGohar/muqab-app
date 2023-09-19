@@ -1,29 +1,31 @@
 import { FC } from 'react';
-import { Flex, Text } from '@ant-design/react-native';
 import { StyleSheet } from 'react-native';
-import { colors, fonts } from '../../utils/constants';
-interface AuthFooterProps {
-}
+import {
+  privacyPolicyScreen,
+  termsConditionsScreen,
+  wp,
+} from '../../utils/constants';
+import { Text } from '../atoms';
+import { Link } from '@react-navigation/native';
 
-export const AuthFooter: FC<AuthFooterProps> = ({ }) => {
-
+export const AuthFooter: FC = () => {
   return (
-    <Flex justify='center' direction='column' >
-      <Text style={styles.body}>
-        By creating an account you agree to <Text style={styles.link}>Terms and conditions</Text>
-        and <Text style={styles.link}>Privacy Policy</Text>
-      </Text>
-    </Flex>
+    <Text type="caption" style={styles.footer}>
+      By creating an account you agree to{' '}
+      <Link to={`/${termsConditionsScreen}`}>
+        <Text type="link"> Terms and conditions </Text>
+      </Link>
+      and{' '}
+      <Link to={`/${privacyPolicyScreen}`}>
+        <Text type="link"> Privacy Policy</Text>
+      </Link>
+    </Text>
   );
 };
 
 const styles = StyleSheet.create({
-body: {
-  fontFamily: fonts.quicksand.regular,
-  color: colors.darkGrey,
-  fontSize: 10
-},
-link: {
-  textDecorationLine: 'underline'
-}
-})
+  footer: {
+    textAlign: 'center',
+    paddingHorizontal: wp('5%'),
+  },
+});

@@ -1,3 +1,4 @@
+export * from './auth-main'
 export * from './login'
 export * from './register'
 export * from './change-password'

@@ -1,10 +1,10 @@
 import { Flex } from '@ant-design/react-native';
 import { Text } from '../../components/atoms';
 
-export const VerifyOtp = () => {
+export const PrivacyPolicy = () => {
   return (
     <Flex style={{ height: '100%' }} justify="center">
-      <Text>VerifyOtp</Text>
+      <Text>Privacy Policy</Text>
     </Flex>
   );
 };

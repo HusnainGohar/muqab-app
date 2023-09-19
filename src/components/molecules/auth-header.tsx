@@ -1,19 +1,18 @@
 import { FC } from 'react';
 import { Bottom, Logo } from '../../assets/svg';
-import { Title } from '../atoms/title';
-import { Flex, View, WhiteSpace } from '@ant-design/react-native';
+import { Flex, WhiteSpace } from '@ant-design/react-native';
+import { Text } from '../atoms';
 interface AuthHeaderProps {
-  title: string
+  title: string;
 }
 
 export const AuthHeader: FC<AuthHeaderProps> = ({ title }) => {
-
   return (
-    <Flex justify='center' direction='column' >
+    <Flex justify="center" direction="column">
       <Logo />
-      <WhiteSpace size='lg' />
-      <Title>{title}</Title>
-      <WhiteSpace size='sm' />
+      <WhiteSpace size="lg" />
+      <Text type="h1">{title}</Text>
+      <WhiteSpace size="sm" />
       <Bottom />
     </Flex>
   );
