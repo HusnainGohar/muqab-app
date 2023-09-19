@@ -4,31 +4,43 @@ import { logIn } from '../../store/slices';
 import { Link, useNavigation } from '@react-navigation/native';
 import { useLoginMutation, useSendOtpMutation } from '../../apis/auth';
 import { Alert, StyleSheet } from 'react-native';
-import { colors, forgetPasswordScreen } from '../../utils/constants';
-import {
-  Flex,
-  SegmentedControl,
-  View,
-  WhiteSpace,
-} from '@ant-design/react-native';
+import { colors, forgetPasswordScreen, hp, wp } from '../../utils/constants';
+import { Flex, SegmentedControl, WhiteSpace } from '@ant-design/react-native';
 import { Button, InputField, Text } from '../../components/atoms';
 import { AuthLayout } from '../../components/organisms';
 import { SocialAuth } from '../../components/molecules';
+import { Controller, useForm } from 'react-hook-form';
+
+type LoginFormKeys = {
+  phone: string;
+  email: string;
+  password: string;
+};
 
 export const Login = () => {
   const [isLoginWithEmail, setIsLoginWithEmail] = useState(true);
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [phone, setPhone] = useState<any>();
   const { navigate } = useNavigation();
   const dispatch = useDispatch();
   const [loginUser, { isLoading: isLoading }] = useLoginMutation();
   const [sendOtp] = useSendOtpMutation();
 
-  const handleLogin = () => {
-    if (!email) return Alert.alert(`Email can't be empty`);
-    if (!password) return Alert.alert(`Password can't be empty`);
-    loginUser({ username: email ?? phone, password })
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormKeys>({
+    defaultValues: {
+      phone: '',
+      email: '',
+      password: '',
+    },
+  });
+
+  const handleLogin = (params: LoginFormKeys) => {
+    loginUser({
+      username: params.email || params.phone,
+      password: params.password,
+    })
       .unwrap()
       .then((res: any) => {
         if (res.data.user.email && !res.data.user.isVerified) {
@@ -47,59 +59,100 @@ export const Login = () => {
   };
 
   return (
-    <AuthLayout title="SignUp Yor Account" isLogin={true}>
+    <AuthLayout
+      title="Login Your Account"
+      isLogin={true}
+      paddingTop={hp('10%')}>
       <WhiteSpace size="lg" />
       <SegmentedControl
         selectedTextColor={colors.white}
         tintColor={colors.primary}
         style={styles.segmentedTabStyle}
-        values={['Phone', 'E-mail']}
-        onChange={() => {}}
-        onValueChange={value => setIsLoginWithEmail(value === 'Email')}
+        values={['E-mail', 'Phone']}
+        onValueChange={value => setIsLoginWithEmail(value === 'E-mail')}
       />
       <WhiteSpace size="lg" />
       <Flex direction="column">
         <>
           {isLoginWithEmail ? (
-            <InputField
-              type="email"
-              onChange={(value: any) => setEmail(value)}
-              value={email}
-              placeholder="Business Email"
-              label="Business Email"
+            <Controller
+              control={control}
+              rules={{
+                required: 'Email is Required',
+                pattern: {
+                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                  message: 'Must be a valid email address',
+                },
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <InputField
+                  type="email"
+                  inputMode="email"
+                  onChange={onChange}
+                  errorMessage={errors.email?.message}
+                  value={value}
+                  onBlur={onBlur}
+                  placeholder="Business Email"
+                  label="Business Email"
+                />
+              )}
+              name="email"
             />
           ) : (
-            <InputField
-              type="phone"
-              label="Phone no."
-              placeholder="phone"
-              onChange={value => setPhone(value)}
-              value={phone}
+            <Controller
+              control={control}
+              rules={{
+                required: 'Phone is Required',
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <InputField
+                  type="phone"
+                  inputMode="tel"
+                  label="Phone no."
+                  onBlur={onBlur}
+                  placeholder="Phone"
+                  onChange={onChange}
+                  value={value}
+                  errorMessage={errors.phone?.message}
+                />
+              )}
+              name="phone"
             />
           )}
         </>
-        <WhiteSpace size="lg" />
-        <InputField
-          type="password"
-          value={password}
-          onChange={(value: any) => setPassword(value)}
-          placeholder="Password"
-          label="Password"
+        <WhiteSpace />
+        <Controller
+          control={control}
+          rules={{
+            required: 'Password is Required',
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <InputField
+              type="password"
+              onBlur={onBlur}
+              onChange={onChange}
+              value={value}
+              placeholder="Password"
+              label="Password"
+              errorMessage={errors.password?.message}
+            />
+          )}
+          name="password"
         />
-        <WhiteSpace size="lg" />
-        <Link to={`/${forgetPasswordScreen}`}>
-          <Text type="link">Forget password ?</Text>
-        </Link>
+        <WhiteSpace size="sm" />
+        <Text type="link" style={styles.forgetPassword}>
+          <Link to={`/${forgetPasswordScreen}`}>Forget password ?</Link>
+        </Text>
         <WhiteSpace size="lg" />
         <Button
           type="primary"
           isLoading={isLoading}
-          onPress={() => handleLogin()}
+          onPress={handleSubmit(handleLogin)}
           title="Sign in"
         />
       </Flex>
       <WhiteSpace size="lg" />
-      <SocialAuth />
+      <SocialAuth title="Or Login With" />
     </AuthLayout>
   );
 };
@@ -109,5 +162,12 @@ export const styles = StyleSheet.create({
     height: 40,
     borderColor: colors.darkGrey,
     borderWidth: 1,
+    backgroundColor: colors.white,
+  },
+  forgetPassword: {
+    width: wp('80%'),
+    textAlign: 'right',
+    color: colors.primary,
+    marginTop: -15,
   },
 });

@@ -1,30 +1,25 @@
 //@ts-nocheck
-import React, { useState } from 'react';
-import { Flex, InputItem, View } from '@ant-design/react-native';
+import React, { useMemo, useState } from 'react';
+import { Flex, InputItem, View, WhiteSpace } from '@ant-design/react-native';
 import { StyleSheet } from 'react-native';
-import { wp } from '../../utils/constants';
+import { colors, fonts, wp } from '../../utils/constants';
 import { Text } from './text';
+import { InputItemProps } from '@ant-design/react-native/lib/input-item';
+import { Button } from './button';
 
-interface InputFieldProps {
+interface InputFieldProps extends InputItemProps {
   label: string;
   type: string;
   placeholder?: string;
   value: string;
   name?: string;
+  errorMessage?: string;
+  isClearable?: boolean;
   style?: any;
   inputStyle?: any;
   labelStyle?: any;
-  onChange: (value: any) => void;
+  onChange: (value: text) => void;
 }
-
-const eyeIconStyle = {
-  position: 'absolute',
-  top: '25%',
-  right: '15px',
-  cursor: 'pointer',
-  color: '#CECECE',
-  fontSize: '20px',
-};
 
 export const InputField: React.FC<InputFieldProps> = ({
   label,
@@ -36,37 +31,86 @@ export const InputField: React.FC<InputFieldProps> = ({
   value,
   onChange,
   name,
+  errorMessage = '',
+  isClearable = false,
 }) => {
   const [isPassword, setIsPassword] = useState(true);
+  const [isFocused, setIsFocused] = useState(false);
+
+  const isError = useMemo(() => errorMessage !== '', [errorMessage]);
+
+  const inputBorderColor = useMemo(() => {
+    return isError ? colors.red : isFocused ? colors.primary : colors.black;
+  }, [isFocused, isError]);
+
+  const onChangeText = (value: string) => {
+    onChange(value);
+  };
+
   return (
     <View style={[styles.generalView, style]}>
-      <Flex>
-        <Text style={[inputStyle]}>{label}</Text>
+      <Text type="h5" style={[labelStyle]}>
+        {label}
+      </Text>
+      <WhiteSpace />
+      <View style={[styles.inputView, { borderColor: inputBorderColor }]}>
+        <InputItem
+          placeholder={placeholder}
+          type={isPassword ? type : 'text'}
+          placeholderTextColor={colors.darkGrey}
+          value={value}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          onChangeText={onChangeText}
+          name={name}
+          error={isError}
+          clear={isClearable}
+          style={[
+            styles.general,
+            inputStyle,
+            { paddingRight: type === 'password' ? 25 : 0 },
+          ]}
+        />
         {type === 'password' && (
-          <Text style={{ fontSize: 12, color: '#707070' }}>
-            (8+ characters)
-          </Text>
+          <Button
+            type="ghost"
+            style={[styles.eyeIcon, { right: isError ? 25 : 0 }]}
+            icon={isPassword ? 'eye' : 'eye-invisible'}
+            onPress={() => setIsPassword(state => !state)}
+          />
         )}
-      </Flex>
-      <InputItem
-        placeholder={placeholder}
-        secureTextEntry={isPassword}
-        type={type}
-        value={value}
-        onChange={onChange}
-        name={name}
-        style={[styles.general, inputStyle]}
-      />
+      </View>
+      <WhiteSpace size="xs" />
+      <Text style={styles.errorMessage} type="caption">
+        {errorMessage}
+      </Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   generalView: {
-    width: wp('80%'),
+    width: '100%',
   },
   general: {
+    height: 50,
+    width: 'auto',
+    fontFamily: fonts.quicksand.medium,
+    color: colors.black,
+  },
+  inputView: {
     borderWidth: 1,
     borderRadius: 5,
+  },
+  eyeIcon: {
+    width: 55,
+    height: 40,
+    borderWidth: 0,
+    position: 'absolute',
+    top: 4,
+  },
+  errorMessage: {
+    color: colors.red,
+    fontSize: 12,
   },
 });

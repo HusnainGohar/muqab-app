@@ -12,13 +12,14 @@ export const AuthFooter: FC = () => {
   return (
     <Text type="caption" style={styles.footer}>
       By creating an account you agree to{' '}
-      <Link to={`/${termsConditionsScreen}`}>
-        <Text type="link"> Terms and conditions </Text>
-      </Link>
+      <Text type="link">
+        <Link to={`/${termsConditionsScreen}`}>Terms and conditions</Link>
+      </Text>{' '}
       and{' '}
-      <Link to={`/${privacyPolicyScreen}`}>
-        <Text type="link"> Privacy Policy</Text>
-      </Link>
+      <Text type="link">
+        {' '}
+        <Link to={`/${privacyPolicyScreen}`}>Privacy Policy</Link>
+      </Text>
     </Text>
   );
 };

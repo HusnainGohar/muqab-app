@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { Flex, WhiteSpace } from '@ant-design/react-native';
 import { Button, Text } from '../atoms';
 import { Facebook, Google } from '../../assets/svg';
+import { StyleSheet } from 'react-native';
 interface SocialAuthProps {
   title?: string;
   variant?: 'primary' | 'secondary';
@@ -16,16 +17,16 @@ export const SocialAuth: FC<SocialAuthProps> = ({
       {variant === 'primary' ? (
         <>
           <Flex justify="center" direction="column">
-            <Flex style={{ width: 120 }} justify="between">
+            <Flex style={styles.buttonRow} justify="between">
               <Button
                 type="ghost"
-                style={{ width: 50 }}
+                style={styles.button}
                 icon={<Facebook />}
                 onPress={() => {}}
               />
               <Button
                 type="ghost"
-                style={{ width: 50 }}
+                style={styles.button}
                 icon={<Google />}
                 onPress={() => {}}
               />
@@ -56,3 +57,12 @@ export const SocialAuth: FC<SocialAuthProps> = ({
     </Flex>
   );
 };
+
+const styles = StyleSheet.create({
+  buttonRow: {
+    width: 120,
+  },
+  button: {
+    width: 50,
+  },
+});

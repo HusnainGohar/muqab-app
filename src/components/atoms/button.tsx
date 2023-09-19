@@ -16,6 +16,7 @@ interface ButtonProps extends AntButtonProps {
   title?: string;
   onPress?: () => void;
   isLoading?: boolean;
+  disabled?: boolean;
   icon?: IconNames | JSX.Element;
   leftIcon?: IconNames | JSX.Element;
   rightIcon?: IconNames | JSX.Element;
@@ -30,6 +31,7 @@ export const Button: FC<ButtonProps> = ({
   title = '',
   onPress,
   isLoading,
+  disabled,
   icon,
   leftIcon,
   rightIcon,
@@ -46,6 +48,7 @@ export const Button: FC<ButtonProps> = ({
     <AntButton
       type={type}
       loading={isLoading}
+      disabled={isLoading || disabled}
       onPress={onPress}
       style={[styles.general, styles[type], style]}
       activeStyle={[styles.general, styles[type], style]}
