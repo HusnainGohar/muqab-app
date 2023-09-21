@@ -12,6 +12,7 @@
   "dependencies": {
     "@ant-design/icons-react-native": "^2.3.2",
     "@ant-design/react-native": "^5.0.4",
+    "@hookform/resolvers": "^3.3.1",
     "@react-native-async-storage/async-storage": "^1.19.3",
     "@react-native-camera-roll/camera-roll": "^5.7.2",
     "@react-native-community/segmented-control": "^2.2.2",
@@ -35,7 +36,8 @@
     "react-native-svg": "^13.13.0",
     "react-native-vector-icons": "^10.0.0",
     "react-redux": "^8.1.2",
-    "redux-persist": "^6.0.0"
+    "redux-persist": "^6.0.0",
+    "zod": "^3.22.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

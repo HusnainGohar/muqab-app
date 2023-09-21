@@ -27,6 +27,6 @@ export const AuthFooter: FC = () => {
 const styles = StyleSheet.create({
   footer: {
     textAlign: 'center',
-    paddingHorizontal: wp('5%'),
+    paddingHorizontal: wp('15%'),
   },
 });

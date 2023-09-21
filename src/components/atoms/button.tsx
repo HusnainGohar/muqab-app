@@ -38,6 +38,7 @@ export const Button: FC<ButtonProps> = ({
   iconColor,
   iconSize = 24,
   type = 'primary',
+  ...props
 }) => {
   const iconColorValue = iconColor
     ? iconColor
@@ -52,7 +53,8 @@ export const Button: FC<ButtonProps> = ({
       onPress={onPress}
       style={[styles.general, styles[type], style]}
       activeStyle={[styles.general, styles[type], style]}
-      activeOpacity={0.5}>
+      activeOpacity={0.5}
+      {...props}>
       {icon ? (
         <View>
           {typeof icon === 'string' ? (

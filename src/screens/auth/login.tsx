@@ -6,16 +6,17 @@ import { useLoginMutation, useSendOtpMutation } from '../../apis/auth';
 import { Alert, StyleSheet } from 'react-native';
 import { colors, forgetPasswordScreen, hp, wp } from '../../utils/constants';
 import { Flex, SegmentedControl, WhiteSpace } from '@ant-design/react-native';
-import { Button, InputField, Text } from '../../components/atoms';
+import { Button, Controller, Text } from '../../components/atoms';
 import { AuthLayout } from '../../components/organisms';
 import { SocialAuth } from '../../components/molecules';
-import { Controller, useForm } from 'react-hook-form';
-
-type LoginFormKeys = {
-  phone: string;
-  email: string;
-  password: string;
-};
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { LoginParams } from '../../utils/types';
+import {
+  loginWithEmailSchema,
+  loginWithPhoneSchema,
+} from '../../utils/schemas';
+import { loginFields } from '../../utils/input-fields-details';
 
 export const Login = () => {
   const [isLoginWithEmail, setIsLoginWithEmail] = useState(true);
@@ -27,18 +28,21 @@ export const Login = () => {
   const {
     control,
     handleSubmit,
+    resetField,
     formState: { errors },
-  } = useForm<LoginFormKeys>({
+  } = useForm<LoginParams>({
+    resolver: zodResolver(
+      isLoginWithEmail ? loginWithEmailSchema : loginWithPhoneSchema,
+    ),
     defaultValues: {
-      phone: '',
-      email: '',
+      username: '',
       password: '',
     },
   });
 
-  const handleLogin = (params: LoginFormKeys) => {
+  const handleLogin = (params: LoginParams) => {
     loginUser({
-      username: params.email || params.phone,
+      username: params.username,
       password: params.password,
     })
       .unwrap()
@@ -58,6 +62,11 @@ export const Login = () => {
       });
   };
 
+  const handleSegmentedTabChange = (value: string) => {
+    setIsLoginWithEmail(value === 'E-mail');
+    resetField('username');
+  };
+
   return (
     <AuthLayout
       title="Login Your Account"
@@ -69,75 +78,20 @@ export const Login = () => {
         tintColor={colors.primary}
         style={styles.segmentedTabStyle}
         values={['E-mail', 'Phone']}
-        onValueChange={value => setIsLoginWithEmail(value === 'E-mail')}
+        onValueChange={handleSegmentedTabChange}
       />
       <WhiteSpace size="lg" />
       <Flex direction="column">
-        <>
-          {isLoginWithEmail ? (
-            <Controller
-              control={control}
-              rules={{
-                required: 'Email is Required',
-                pattern: {
-                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                  message: 'Must be a valid email address',
-                },
-              }}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <InputField
-                  type="email"
-                  inputMode="email"
-                  onChange={onChange}
-                  errorMessage={errors.email?.message}
-                  value={value}
-                  onBlur={onBlur}
-                  placeholder="Business Email"
-                  label="Business Email"
-                />
-              )}
-              name="email"
-            />
-          ) : (
-            <Controller
-              control={control}
-              rules={{
-                required: 'Phone is Required',
-              }}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <InputField
-                  type="phone"
-                  inputMode="tel"
-                  label="Phone no."
-                  onBlur={onBlur}
-                  placeholder="Phone"
-                  onChange={onChange}
-                  value={value}
-                  errorMessage={errors.phone?.message}
-                />
-              )}
-              name="phone"
-            />
-          )}
-        </>
+        <Controller
+          control={control}
+          errorMessage={errors.username?.message}
+          {...loginFields[isLoginWithEmail ? 'email' : 'phone']}
+        />
         <WhiteSpace />
         <Controller
           control={control}
-          rules={{
-            required: 'Password is Required',
-          }}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <InputField
-              type="password"
-              onBlur={onBlur}
-              onChange={onChange}
-              value={value}
-              placeholder="Password"
-              label="Password"
-              errorMessage={errors.password?.message}
-            />
-          )}
-          name="password"
+          errorMessage={errors.password?.message}
+          {...loginFields.password}
         />
         <WhiteSpace size="sm" />
         <Text type="link" style={styles.forgetPassword}>
@@ -157,7 +111,7 @@ export const Login = () => {
   );
 };
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   segmentedTabStyle: {
     height: 40,
     borderColor: colors.darkGrey,
@@ -168,6 +122,6 @@ export const styles = StyleSheet.create({
     width: wp('80%'),
     textAlign: 'right',
     color: colors.primary,
-    marginTop: -15,
+    marginTop: -10,
   },
 });
