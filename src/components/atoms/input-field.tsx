@@ -1,12 +1,13 @@
 //@ts-nocheck
 import React, { useMemo, useRef, useState } from 'react';
-import { InputItem, View, WhiteSpace } from '@ant-design/react-native';
+import { Icon, InputItem, View, WhiteSpace } from '@ant-design/react-native';
 import { KeyboardTypeOptions, StyleSheet } from 'react-native';
 import { colors, fonts } from '../../utils/constants';
 import { Text } from './text';
 import { InputItemProps } from '@ant-design/react-native/lib/input-item';
 import { Button } from './button';
 import PhoneInput from 'react-native-phone-number-input';
+import OTPInputView from '@twotalltotems/react-native-otp-input';
 
 export type InputTypeOptions =
   | 'number'
@@ -31,6 +32,7 @@ export interface InputFieldProps extends InputItemProps {
   labelStyle?: any;
   onChange?: (value: text) => void;
   onBlur?: () => void;
+  isOTP?: boolean;
 }
 
 export const InputField: React.FC<InputFieldProps> = ({
@@ -46,6 +48,7 @@ export const InputField: React.FC<InputFieldProps> = ({
   name,
   errorMessage = '',
   isClearable = false,
+  isOTP = false,
   ...props
 }) => {
   const [isPassword, setIsPassword] = useState(true);
@@ -77,58 +80,85 @@ export const InputField: React.FC<InputFieldProps> = ({
           <WhiteSpace />
         </>
       )}
-      <View style={[styles.inputView, { borderColor: inputBorderColor }]}>
-        {type === 'phone' ? (
-          <PhoneInput
-            ref={phoneInput}
-            layout="second"
-            value={value}
-            defaultCode="US"
-            onChangeFormattedText={onChangeText}
-            placeholder={placeholder}
-            containerStyle={[styles.phoneInputContainer]}
-            textContainerStyle={styles.phoneInputTextContainer}
-            textInputProps={{
-              onFocus: () => setIsFocused(true),
-              onBlur: handleOnBlur,
-              cursorColor: colors.primary,
-              placeholderTextColor: colors.darkGrey,
-            }}
-            textInputStyle={[styles.inputText, styles.phoneInputTextContainer]}
-            codeTextStyle={[styles.inputText]}
-            flagButtonStyle={styles.phoneInputTextContainer}
-          />
-        ) : (
-          <InputItem
-            placeholder={placeholder}
-            type={isPassword ? type : 'text'}
-            placeholderTextColor={colors.darkGrey}
-            value={value}
-            onFocus={() => setIsFocused(true)}
-            onBlur={handleOnBlur}
-            onChangeText={onChangeText}
-            name={name}
-            cursorColor={colors.primary}
-            error={isError}
-            clear={isClearable}
-            style={[
-              styles.general,
-              style.inputText,
-              inputStyle,
-              { paddingRight: type === 'password' ? 25 : 0 },
-            ]}
-            {...props}
-          />
-        )}
-        {type === 'password' && (
-          <Button
-            type="ghost"
-            style={[styles.eyeIcon, { right: isError ? 25 : 0 }]}
-            icon={isPassword ? 'eye' : 'eye-invisible'}
-            onPress={() => setIsPassword(state => !state)}
-          />
-        )}
-      </View>
+      {isOTP ? (
+        <OTPInputView
+          style={styles.general}
+          pinCount={4}
+          code={value}
+          onCodeChanged={onChangeText}
+          autoFocusOnLoad={true}
+          editable={true}
+          codeInputFieldStyle={[
+            styles.inputView,
+            styles.inputText,
+            { borderColor: colors.black },
+          ]}
+          codeInputHighlightStyle={[
+            styles.inputView,
+            styles.inputText,
+            { borderColor: colors.primary },
+          ]}
+        />
+      ) : (
+        <View style={[styles.inputView, { borderColor: inputBorderColor }]}>
+          {type === 'phone' ? (
+            <PhoneInput
+              ref={phoneInput}
+              layout="second"
+              value={value}
+              defaultCode="US"
+              onChangeFormattedText={onChangeText}
+              placeholder={placeholder}
+              containerStyle={[styles.phoneInputContainer]}
+              textContainerStyle={styles.phoneInputTextContainer}
+              textInputProps={{
+                onFocus: () => setIsFocused(true),
+                onBlur: handleOnBlur,
+                cursorColor: colors.primary,
+                placeholderTextColor: colors.darkGrey,
+              }}
+              textInputStyle={[
+                styles.inputText,
+                styles.phoneInputTextContainer,
+              ]}
+              codeTextStyle={[styles.inputText]}
+              flagButtonStyle={styles.phoneInputTextContainer}
+              renderDropdownImage={
+                <Icon name="caret-down" size={'xxs'} color={colors.primary} />
+              }
+            />
+          ) : (
+            <InputItem
+              placeholder={placeholder}
+              type={isPassword ? type : 'text'}
+              placeholderTextColor={colors.darkGrey}
+              value={value}
+              onFocus={() => setIsFocused(true)}
+              onBlur={handleOnBlur}
+              onChangeText={onChangeText}
+              name={name}
+              cursorColor={colors.primary}
+              error={isError}
+              clear={isClearable}
+              style={[
+                styles.general,
+                styles.inputText,
+                inputStyle,
+                { paddingRight: type === 'password' ? 25 : 0 },
+              ]}
+              {...props}
+            />
+          )}
+          {type === 'password' && (
+            <Button
+              type="ghost"
+              style={[styles.eyeIcon, { right: isError ? 25 : 0 }]}
+              icon={isPassword ? 'eye' : 'eye-invisible'}
+              onPress={() => setIsPassword(state => !state)}
+            />
+          )}
+        </View>
+      )}
       <WhiteSpace size="xs" />
       <Text style={styles.errorMessage} type="caption">
         {errorMessage}

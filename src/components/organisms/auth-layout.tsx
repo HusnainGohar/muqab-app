@@ -7,6 +7,8 @@ import {
   colors,
   hp,
   loginScreen,
+  navbarHeight,
+  statusBarHeight,
   wp,
 } from '../../utils/constants';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -18,6 +20,8 @@ interface AuthLayoutProps {
   title?: string;
   isLogin?: boolean;
   paddingTop?: number;
+  isFooter?: boolean;
+  isAuthSwitch?: boolean;
   children: ReactNode;
 }
 
@@ -25,38 +29,45 @@ export const AuthLayout: FC<AuthLayoutProps> = ({
   title = '',
   isLogin = false,
   paddingTop = 0,
+  isAuthSwitch = true,
+  isFooter = true,
   children,
 }) => {
   const { top, bottom } = useSafeAreaInsets();
+
   return (
-    <KeyboardAwareScrollView
-      contentContainerStyle={styles.contentContainerStyle}>
-      <Image source={group} style={styles.footerImage} />
-      <View
-        style={[
-          styles.container,
-          {
-            minHeight: hp('95%'),
-            paddingTop: paddingTop + top,
-            paddingBottom: bottom,
-          },
-        ]}>
-        <AuthHeader title={title} />
-        {children}
-        <WhiteSpace size="lg" />
-        <WhiteSpace size="lg" />
-        <Text type="h6" style={{ textAlign: 'center' }}>
-          {isLogin ? 'Not a member Yet? ' : 'Already Have an Account?'}{' '}
-          <Link to={`/${isLogin ? authMainScreen : loginScreen}`}>
-            <Text style={{ color: colors.primary }} type="link">
-              {isLogin ? 'Join Now' : 'Login'}
+    <>
+      <KeyboardAwareScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: bottom + navbarHeight }}>
+        <View
+          style={[
+            styles.container,
+            {
+              minHeight: hp('95%') + statusBarHeight,
+              paddingTop: paddingTop + top,
+            },
+          ]}>
+          <AuthHeader title={title} />
+          {children}
+          <WhiteSpace size="lg" />
+          <WhiteSpace size="lg" />
+          {isAuthSwitch && (
+            <Text type="h6" style={{ textAlign: 'center' }}>
+              {isLogin ? 'Not a member Yet? ' : 'Already Have an Account?'}{' '}
+              <Link to={`/${isLogin ? authMainScreen : loginScreen}`}>
+                <Text style={{ color: colors.primary }} type="link">
+                  {isLogin ? 'Join Now' : 'Login'}
+                </Text>
+              </Link>
             </Text>
-          </Link>
-        </Text>
-        <WhiteSpace size="lg" />
-      </View>
-      <AuthFooter />
-    </KeyboardAwareScrollView>
+          )}
+          <WhiteSpace size="lg" />
+        </View>
+        {isFooter && <AuthFooter />}
+      </KeyboardAwareScrollView>
+      <Image source={group} style={styles.footerImage} />
+    </>
   );
 };
 
@@ -64,12 +75,10 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: wp('10%'),
   },
-  contentContainerStyle: {
-    minHeight: '100%',
-  },
   bg: {
     width: wp('100%'),
     height: hp('100%'),
+    resizeMode: 'contain',
   },
   footerImage: {
     resizeMode: 'contain',

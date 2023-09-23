@@ -7,6 +7,7 @@ export type FieldDetails = {
   inputMode?: InputModeOptions,
   placeholder?: string,
   label?: string,
+  isOTP?: boolean,
 }
 
 export interface InputFieldsDetails {

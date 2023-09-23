@@ -11,7 +11,7 @@ export const AuthHeader: FC<AuthHeaderProps> = ({ title }) => {
     <Flex justify="center" direction="column">
       <Logo />
       <WhiteSpace size="lg" />
-      <Text type="h1">{title}</Text>
+      <Text type="h2">{title}</Text>
       <WhiteSpace size="sm" />
       <Bottom />
     </Flex>

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { logIn } from '../../store/slices';
-import { Link, useNavigation } from '@react-navigation/native';
+import { Link, ParamListBase, useNavigation } from '@react-navigation/native';
 import { useLoginMutation, useSendOtpMutation } from '../../apis/auth';
 import { Alert, StyleSheet } from 'react-native';
 import { colors, forgetPasswordScreen, hp, wp } from '../../utils/constants';
@@ -17,10 +17,11 @@ import {
   loginWithPhoneSchema,
 } from '../../utils/schemas';
 import { loginFields } from '../../utils/input-fields-details';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 export const Login = () => {
   const [isLoginWithEmail, setIsLoginWithEmail] = useState(true);
-  const { navigate } = useNavigation();
+  const { navigate }: StackNavigationProp<ParamListBase> = useNavigation();
   const dispatch = useDispatch();
   const [loginUser, { isLoading: isLoading }] = useLoginMutation();
   const [sendOtp] = useSendOtpMutation();

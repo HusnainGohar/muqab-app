@@ -1,14 +1,14 @@
-import { useNavigation } from '@react-navigation/native';
+import { ParamListBase, useNavigation } from '@react-navigation/native';
 import { fonts, hp, registerScreen } from '../../utils/constants';
 import { WhiteSpace } from '@ant-design/react-native';
 import { Button, Text } from '../../components/atoms';
 import { AuthLayout } from '../../components/organisms';
-import { ScreensProps } from '../../routes';
 import { SocialAuth } from '../../components/molecules';
 import { StyleSheet } from 'react-native';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 export const AuthMain = () => {
-  const { navigate } = useNavigation<ScreensProps>();
+  const { navigate }: StackNavigationProp<ParamListBase> = useNavigation();
 
   return (
     <AuthLayout

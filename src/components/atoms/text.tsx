@@ -34,6 +34,7 @@ export const Text: React.FC<TextProps> = ({
 const styles = StyleSheet.create({
   general: {
     color: colors.black,
+    textAlign: 'justify',
   },
   regular: {
     fontSize: 12,

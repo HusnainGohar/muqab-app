@@ -43,14 +43,14 @@ export const SocialAuth: FC<SocialAuthProps> = ({
             type="ghost"
             leftIcon={<Facebook />}
             onPress={() => {}}
-            title="Contiue with Facebook"
+            title="Facebook"
           />
           <WhiteSpace size="lg" />
           <Button
             type="ghost"
             leftIcon={<Google />}
             onPress={() => {}}
-            title="Contiue with Google"
+            title="Google"
           />
         </>
       )}

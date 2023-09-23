@@ -14,6 +14,10 @@ const passwordValidation = z.string().min(8, {
   message: 'Password must be at least 8 characters long.',
 })
 
+const otpValidation = z.string().min(4, {
+  message: 'OTP not Valid',
+})
+
 export const loginWithEmailSchema = z
   .object({
     username: emailValidation,
@@ -44,3 +48,48 @@ export const registerSchema = z
   });
 
 export type RegisterSchema = z.infer<typeof registerSchema>
+
+export type FormSchema = {
+  [key: string]: string
+}
+
+export const changePasswordSchema = z
+  .object({
+    oldPassword: passwordValidation,
+    password: passwordValidation,
+    retypePassword: required,
+  })
+  .required()
+  .refine((data) => data.password === data.retypePassword, {
+    message: "Passwords don't match",
+    path: ["retypePassword"], // path of error
+  });
+
+export const verifyEmailSchema = z
+  .object({
+    email: emailValidation,
+  })
+  .required()
+
+export const verifyPhoneSchema = z
+  .object({
+    email: phoneValidation,
+  })
+  .required()
+
+export const verifyOtpSchema = z
+  .object({
+    otp: otpValidation,
+  })
+  .required()
+
+export const resetPasswordSchema = z
+  .object({
+    password: passwordValidation,
+    retypePassword: required,
+  })
+  .required()
+  .refine((data) => data.password === data.retypePassword, {
+    message: "Passwords don't match",
+    path: ["retypePassword"], // path of error
+  });
