@@ -48,7 +48,7 @@ export const Login = () => {
     })
       .unwrap()
       .then((res: any) => {
-        if (res.data.user.email && !res.data.user.isVerified) {
+        if (res.data.user.email && !res.data.user.isEmailVerified) {
           sendOtp({ username: res.data.user.email })
             .unwrap()
             .then(() => {
@@ -56,10 +56,6 @@ export const Login = () => {
             });
         }
         dispatch(logIn(res.data));
-      })
-      .catch((err: any) => {
-        console.log('error while login...', err);
-        Alert.alert(err.data.message);
       });
   };
 

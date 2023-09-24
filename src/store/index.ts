@@ -4,6 +4,7 @@ import { persistStore, persistReducer } from 'redux-persist'
 import { api } from '../apis';
 import { authSlice } from './slices';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { TypedUseSelectorHook, useSelector as useAppSelector } from 'react-redux';
 
 const rootReducer = combineReducers({
   [api.reducerPath]: api.reducer,
@@ -25,6 +26,10 @@ export const store = configureStore({
       serializableCheck: false
     }).concat(api.middleware),
 });
+
+export type RootState = ReturnType<typeof store.getState>
+
+export const useSelector: TypedUseSelectorHook<RootState> = useAppSelector;
 
 export const persistor = persistStore(store)
 

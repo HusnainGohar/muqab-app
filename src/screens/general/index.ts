@@ -1,2 +1,6 @@
 export * from './privacy-policy'
 export * from './terms-coditions'
+export * from './home'
+export * from './inbox'
+export * from './shop'
+export * from './profile'
