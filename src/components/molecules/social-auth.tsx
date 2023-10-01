@@ -32,11 +32,13 @@ export const SocialAuth: FC<SocialAuthProps> = ({
 
   const handleGoogleAuth = async () => {
     const credentials = await authenticationWithGoogle();
+    if (!credentials?.code) return;
     handleSocialLogin('google', credentials);
   };
 
   const handleFacebookAuth = async () => {
     const credentials = await authenticateWithFacebook();
+    if (!credentials?.code) return;
     handleSocialLogin('facebook', credentials);
   };
 

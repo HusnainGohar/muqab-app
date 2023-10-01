@@ -59,7 +59,6 @@ export const authenticationWithGoogle = async () => {
       profileImageSize: 120,
     });
     const hasPlayServices = await GoogleSignin.hasPlayServices();
-
     if (!hasPlayServices) {
       Toast.fail({
         content: `Google Play Services are Disabled`,
@@ -67,14 +66,16 @@ export const authenticationWithGoogle = async () => {
       })
       return;
     }
-    const googleTokens = await GoogleSignin.getTokens();
-    return { code: googleTokens?.idToken };
+    if (await GoogleSignin.isSignedIn()) await GoogleSignin.signOut();
+    const signedIn = await GoogleSignin.signIn()
+    return { code: signedIn?.idToken };
   } catch (error: any) {
     console.log('error in authenticationWithGoogle...', error);
     Toast.fail({
       content: `Something went wrong!`,
       duration: 2,
     })
+    return;
   }
 }
 
@@ -93,5 +94,6 @@ export const authenticateWithFacebook = async () => {
       content: `Something went wrong!`,
       duration: 2,
     })
+    return;
   }
 }
