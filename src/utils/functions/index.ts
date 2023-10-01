@@ -1,5 +1,6 @@
 import { Toast } from "@ant-design/react-native";
 import { ErrorResponse } from "../types";
+export * from './social-auth'
 
 export const handleError = (err: ErrorResponse) => {
   const errorMessage = err?.data?.message ?? ''

@@ -1,5 +1,10 @@
 export interface DataResponse {
-  [key: string]: string | boolean | number
+  message?: string
+  user: {
+    [key: string]: string | boolean | number
+  },
+  accessToken?: string
+  verificationToken?: string
 }
 export interface AuthResponseType {
   code: number
@@ -24,6 +29,7 @@ export interface User {
 }
 export interface AuthStoreType {
   token?: string;
+  verificationToken?: string;
   user?: User
 }
 export interface LoginParams {
@@ -43,9 +49,20 @@ export interface SignUpParams {
 export interface VerfiyParams {
   username: string;
   otp: string;
+  forResetPassword?: boolean;
 }
 
 export interface ForgetParams {
   password: string;
   verificationToken: string;
+}
+
+export interface SocialAuthArgs {
+  authProvider: string
+  credentials: any
+}
+
+export interface ChangePasswordParams {
+  password: string;
+  newPassword: string;
 }

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MUQAB</string>
+    <string name="facebook_app_id">1506306996792677</string>
+    <string name="facebook_client_token">f77ef25fb007cd6e0d58730f0684b4ac</string>
 </resources>

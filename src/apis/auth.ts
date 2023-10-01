@@ -1,25 +1,27 @@
+import { Toast } from '@ant-design/react-native';
 import { api } from '.';
 import { handleError } from '../utils/functions';
-import { AuthResponseType, ErrorResponse, DataResponse, ForgetParams, LoginParams, SignUpParams, VerfiyParams } from '../utils/types';
+import { AuthResponseType, ErrorResponse, DataResponse, ForgetParams, LoginParams, SignUpParams, VerfiyParams, SocialAuthArgs, ChangePasswordParams } from '../utils/types';
 
 const transformData = (data: DataResponse) => {
     return {
+        verificationToken: data?.verificationToken,
         token: data?.accessToken,
         user: {
-            id: data._id,
-            email: data.email,
-            phone: data.phone,
-            firstName: data.firstName,
-            lastName: data.lastName,
-            currency: data.currency,
-            isActive: Boolean(data.isActive),
-            isAdmin: Boolean(data.isAdmin),
-            isEmailVerified: Boolean(data.isEmailVerified),
-            isPhoneVerified: Boolean(data.isPhoneVerified),
-            createdAt: data.createdAt,
-            updatedAt: data.updatedAt,
-            userRole: data.userRole,
-            website: data.website,
+            id: data.user?._id,
+            email: data.user?.email,
+            phone: data.user?.phone,
+            firstName: data.user?.firstName,
+            lastName: data.user?.lastName,
+            currency: data.user?.currency,
+            isActive: Boolean(data.user?.isActive),
+            isAdmin: Boolean(data.user?.isAdmin),
+            isEmailVerified: Boolean(data.user?.isEmailVerified),
+            isPhoneVerified: Boolean(data.user?.isPhoneVerified),
+            createdAt: data.user?.createdAt,
+            updatedAt: data.user?.updatedAt,
+            userRole: data.user?.userRole,
+            website: data.user?.website,
         }
     }
 }
@@ -52,14 +54,42 @@ export const authApis = api.injectEndpoints({
                 const { data } = baseQueryReturnValue;
                 return transformData(data)
             },
+            transformErrorResponse(baseQueryReturnValue: ErrorResponse) {
+                const error = handleError(baseQueryReturnValue);
+                return error
+            },
+        }),
+
+        socialAuth: builder.mutation<any, SocialAuthArgs>({
+            query: (args) => ({
+                url: `/user/auth/social/${args.authProvider}`,
+                method: 'POST',
+                body: args.credentials
+            }),
+            transformResponse(baseQueryReturnValue: AuthResponseType) {
+                const { data } = baseQueryReturnValue;
+                return transformData(data)
+            },
+            transformErrorResponse(baseQueryReturnValue: ErrorResponse) {
+                const error = handleError(baseQueryReturnValue);
+                return error
+            },
         }),
 
         verfiy: builder.mutation<any, VerfiyParams>({
-            query: ({ username, otp }) => ({
+            query: ({ username, otp, forResetPassword }) => ({
                 url: '/user/verify-otp',
                 method: 'POST',
-                body: { username, otp }
+                body: { username, otp, forResetPassword }
             }),
+            transformResponse(baseQueryReturnValue: AuthResponseType) {
+                const { data } = baseQueryReturnValue;
+                return transformData(data)
+            },
+            transformErrorResponse(baseQueryReturnValue: ErrorResponse) {
+                const error = handleError(baseQueryReturnValue);
+                return error
+            },
         }),
 
         sendOtp: builder.mutation<any, any>({
@@ -68,16 +98,83 @@ export const authApis = api.injectEndpoints({
                 method: 'POST',
                 body: { username }
             }),
+            transformResponse(baseQueryReturnValue: any) {
+                const { data } = baseQueryReturnValue;
+                Toast.success({
+                    content: data?.message,
+                    duration: 2,
+                })
+                return data
+            },
+            transformErrorResponse(baseQueryReturnValue: ErrorResponse) {
+                const error = handleError(baseQueryReturnValue);
+                return error
+            },
         }),
 
-        forgetPassword: builder.mutation<any, ForgetParams>({
+        setNewPassword: builder.mutation<any, ForgetParams>({
             query: (data) => ({
                 url: '/user/add-new-password',
                 method: 'POST',
                 body: { password: data.password, verificationToken: data.verificationToken }
             }),
+            transformResponse(baseQueryReturnValue: AuthResponseType) {
+                const { data, code } = baseQueryReturnValue;
+                if (code === 1) {
+                    Toast.success({
+                        content: data?.message,
+                        duration: 2,
+                    })
+                }
+                return baseQueryReturnValue
+            },
+            transformErrorResponse(baseQueryReturnValue: ErrorResponse) {
+                const error = handleError(baseQueryReturnValue);
+                return error
+            },
+        }),
+
+        changePassword: builder.mutation<any, ChangePasswordParams>({
+            query: (data) => ({
+                url: '/user/change-password',
+                method: 'POST',
+                body: { password: data.password, newPassword: data.newPassword }
+            }),
+            transformResponse(baseQueryReturnValue: AuthResponseType) {
+                const { data, code } = baseQueryReturnValue;
+                if (code === 1) {
+                    Toast.success({
+                        content: data?.message,
+                        duration: 2,
+                    })
+                }
+                return baseQueryReturnValue
+            },
+            transformErrorResponse(baseQueryReturnValue: ErrorResponse) {
+                const error = handleError(baseQueryReturnValue);
+                return error
+            },
+        }),
+
+        logout: builder.mutation<any, any>({
+            query: () => ({
+                url: '/user/logout',
+                method: 'POST'
+            }),
+            transformResponse(baseQueryReturnValue: any) {
+                const { data } = baseQueryReturnValue;
+                Toast.success({
+                    content: data?.message,
+                    duration: 2,
+                })
+                return data
+            },
+            transformErrorResponse(baseQueryReturnValue: ErrorResponse) {
+                const error = handleError(baseQueryReturnValue);
+                return error
+            },
         }),
     }),
 });
 
-export const { useSignUpMutation, useLoginMutation, useVerfiyMutation, useSendOtpMutation, useForgetPasswordMutation } = authApis;
+export const { useSignUpMutation, useLoginMutation, useSocialAuthMutation, useVerfiyMutation, useSendOtpMutation, useSetNewPasswordMutation, useChangePasswordMutation, useLogoutMutation } = authApis;

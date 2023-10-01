@@ -6,6 +6,9 @@ import { SocialAuth } from '../../components/molecules';
 import { FormSchema, registerSchema } from '../../utils/schemas';
 import { registerFields } from '../../utils/input-fields-details';
 import { Form } from '../../components/molecules/form';
+import { useSignUpMutation } from '../../apis/auth';
+import { useOnAuthSuccess } from '../../hooks';
+import { AuthStoreType } from '../../utils/types';
 
 export const Register = () => {
   const defaultValues = {
@@ -16,8 +19,19 @@ export const Register = () => {
     password: '',
     retypePassword: '',
   };
-  const handleRegister = (params: FormSchema) => {
-    console.log('params...', params);
+  const [registerUser, { isLoading: isLoading }] = useSignUpMutation();
+  const onAuthSuccess = useOnAuthSuccess();
+  const handleRegister = async (params: FormSchema) => {
+    const { firstName, lastName, email, phone, password } = params;
+    const res = (await registerUser({
+      firstName,
+      lastName,
+      email,
+      phone,
+      password,
+      website: '',
+    }).unwrap()) as AuthStoreType;
+    onAuthSuccess(res);
   };
 
   return (
@@ -33,6 +47,7 @@ export const Register = () => {
         onSubmit={handleRegister}
         defaultValues={defaultValues}
         submitButtonLabel={'SignUp'}
+        isLoading={isLoading}
       />
       <WhiteSpace size="lg" />
       <SocialAuth title="Or SignUp With" />

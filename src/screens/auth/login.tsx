@@ -1,9 +1,7 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { logIn } from '../../store/slices';
-import { Link, ParamListBase, useNavigation } from '@react-navigation/native';
-import { useLoginMutation, useSendOtpMutation } from '../../apis/auth';
-import { Alert, StyleSheet } from 'react-native';
+import { Link } from '@react-navigation/native';
+import { useLoginMutation } from '../../apis/auth';
+import { StyleSheet } from 'react-native';
 import { colors, forgetPasswordScreen, hp, wp } from '../../utils/constants';
 import { Flex, SegmentedControl, WhiteSpace } from '@ant-design/react-native';
 import { Button, Controller, Text } from '../../components/atoms';
@@ -11,20 +9,18 @@ import { AuthLayout } from '../../components/organisms';
 import { SocialAuth } from '../../components/molecules';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { LoginParams } from '../../utils/types';
+import { AuthStoreType, LoginParams } from '../../utils/types';
 import {
   loginWithEmailSchema,
   loginWithPhoneSchema,
 } from '../../utils/schemas';
 import { loginFields } from '../../utils/input-fields-details';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { useOnAuthSuccess } from '../../hooks';
 
 export const Login = () => {
   const [isLoginWithEmail, setIsLoginWithEmail] = useState(true);
-  const { navigate }: StackNavigationProp<ParamListBase> = useNavigation();
-  const dispatch = useDispatch();
   const [loginUser, { isLoading: isLoading }] = useLoginMutation();
-  const [sendOtp] = useSendOtpMutation();
+  const onAuthSuccess = useOnAuthSuccess();
 
   const {
     control,
@@ -41,22 +37,12 @@ export const Login = () => {
     },
   });
 
-  const handleLogin = (params: LoginParams) => {
-    loginUser({
+  const handleLogin = async (params: LoginParams) => {
+    const res = (await loginUser({
       username: params.username,
       password: params.password,
-    })
-      .unwrap()
-      .then((res: any) => {
-        if (res.data.user.email && !res.data.user.isEmailVerified) {
-          sendOtp({ username: res.data.user.email })
-            .unwrap()
-            .then(() => {
-              Alert.alert('success');
-            });
-        }
-        dispatch(logIn(res.data));
-      });
+    }).unwrap()) as AuthStoreType;
+    onAuthSuccess(res);
   };
 
   const handleSegmentedTabChange = (value: string) => {

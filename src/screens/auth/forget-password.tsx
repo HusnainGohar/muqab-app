@@ -1,18 +1,25 @@
 import { StyleSheet } from 'react-native';
-import { hp } from '../../utils/constants';
+import { hp, verifyOtpScreen } from '../../utils/constants';
 import { WhiteSpace } from '@ant-design/react-native';
 import { AuthLayout } from '../../components/organisms';
 import { FormSchema, verifyEmailSchema } from '../../utils/schemas';
 import { emailVerifyFields } from '../../utils/input-fields-details';
 import { Form } from '../../components/molecules/form';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { StackParamList } from '../../routes';
+import { useNavigation } from '@react-navigation/native';
 
 export const ForgetPassword = () => {
+  const { navigate }: StackNavigationProp<StackParamList> = useNavigation();
   const defaultValues = {
     email: '',
   };
 
   const handleForgetPassword = (params: FormSchema) => {
-    console.log('params...', params);
+    navigate(verifyOtpScreen, {
+      username: params.email,
+      forResetPassword: true,
+    });
   };
 
   return (

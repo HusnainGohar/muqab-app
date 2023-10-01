@@ -43,13 +43,13 @@ import {
 import { useSelector } from '../store';
 import { useMemo } from 'react';
 
-type StackParamList = {
+export type StackParamList = {
   [authMainScreen]: undefined;
   [loginScreen]: undefined;
   [registerScreen]: undefined;
-  [verifyOtpScreen]: undefined;
+  [verifyOtpScreen]: { username: string; forResetPassword?: boolean };
   [forgetPasswordScreen]: undefined;
-  [resetPasswordScreen]: undefined;
+  [resetPasswordScreen]: { verificationToken: string };
   [changePasswordScreen]: undefined;
   [privacyPolicyScreen]: undefined;
   [termsConditionsScreen]: undefined;
@@ -82,13 +82,12 @@ const Dashboard = () => (
 
 export const Routes = () => {
   const auth = useSelector(state => state.auth);
-  console.log('auth store...', auth);
 
   const initialRouteName = useMemo(() => {
     const { user, token } = auth;
     if (!token) return authMainScreen;
     if (!user?.isEmailVerified) return verifyOtpScreen;
-    if (!user?.isPhoneVerified) return verifyOtpScreen;
+    // if (!user?.isPhoneVerified) return verifyOtpScreen;
     return dashboardScreen;
   }, [auth]);
 

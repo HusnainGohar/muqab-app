@@ -11,8 +11,8 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     logIn: (state, { payload }) => {
-      state.token = payload.accessToken
-      state.user = payload.user
+      state.token = payload.token ?? state.token
+      state.user = payload.user ?? state.user
     },
     logout: state => {
       state.token = undefined

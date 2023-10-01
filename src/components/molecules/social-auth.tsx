@@ -1,8 +1,17 @@
 import { FC } from 'react';
-import { Flex, WhiteSpace } from '@ant-design/react-native';
+import { ActivityIndicator, Flex, WhiteSpace } from '@ant-design/react-native';
 import { Button, Text } from '../atoms';
-import { Facebook, Google } from '../../assets/svg';
+import { Apple, Facebook, Google } from '../../assets/svg';
 import { StyleSheet } from 'react-native';
+import { useSocialAuthMutation } from '../../apis/auth';
+import {
+  authenticateWithApple,
+  authenticateWithFacebook,
+  authenticationWithGoogle,
+} from '../../utils/functions';
+import { wp } from '../../utils/constants';
+import { useOnAuthSuccess } from '../../hooks';
+import { AuthStoreType } from '../../utils/types';
 interface SocialAuthProps {
   title?: string;
   variant?: 'primary' | 'secondary';
@@ -12,8 +21,43 @@ export const SocialAuth: FC<SocialAuthProps> = ({
   title = 'Or SigUp With',
   variant = 'primary',
 }) => {
+  const [socialAuth, { isLoading }] = useSocialAuthMutation();
+  const onAuthSuccess = useOnAuthSuccess();
+
+  const handleAppleAuth = async () => {
+    const credentials = await authenticateWithApple();
+    if (!credentials?.code && !credentials?.authorizationCode) return;
+    handleSocialLogin('apple', credentials);
+  };
+
+  const handleGoogleAuth = async () => {
+    const credentials = await authenticationWithGoogle();
+    handleSocialLogin('google', credentials);
+  };
+
+  const handleFacebookAuth = async () => {
+    const credentials = await authenticateWithFacebook();
+    handleSocialLogin('facebook', credentials);
+  };
+
+  const handleSocialLogin = async (authProvider: string, credentials: any) => {
+    const response = (await socialAuth({
+      credentials,
+      authProvider,
+    }).unwrap()) as AuthStoreType;
+    onAuthSuccess(response);
+  };
+
   return (
     <Flex justify="center" direction="column">
+      {isLoading && (
+        <ActivityIndicator
+          animating={true}
+          toast
+          size="large"
+          text="Loading..."
+        />
+      )}
       {variant === 'primary' ? (
         <>
           <Flex justify="center" direction="column">
@@ -22,13 +66,19 @@ export const SocialAuth: FC<SocialAuthProps> = ({
                 type="ghost"
                 style={styles.button}
                 icon={<Facebook />}
-                onPress={() => {}}
+                onPress={handleFacebookAuth}
               />
               <Button
                 type="ghost"
                 style={styles.button}
                 icon={<Google />}
-                onPress={() => {}}
+                onPress={handleGoogleAuth}
+              />
+              <Button
+                type="ghost"
+                style={styles.button}
+                icon={<Apple />}
+                onPress={handleAppleAuth}
               />
             </Flex>
             <WhiteSpace size="lg" />
@@ -42,15 +92,22 @@ export const SocialAuth: FC<SocialAuthProps> = ({
           <Button
             type="ghost"
             leftIcon={<Facebook />}
-            onPress={() => {}}
+            onPress={handleFacebookAuth}
             title="Facebook"
           />
           <WhiteSpace size="lg" />
           <Button
             type="ghost"
             leftIcon={<Google />}
-            onPress={() => {}}
+            onPress={handleGoogleAuth}
             title="Google"
+          />
+          <WhiteSpace size="lg" />
+          <Button
+            type="ghost"
+            leftIcon={<Apple />}
+            onPress={handleAppleAuth}
+            title="Apple"
           />
         </>
       )}
@@ -60,7 +117,7 @@ export const SocialAuth: FC<SocialAuthProps> = ({
 
 const styles = StyleSheet.create({
   buttonRow: {
-    width: 120,
+    width: wp('50%'),
   },
   button: {
     width: 50,
