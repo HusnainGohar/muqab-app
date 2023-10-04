@@ -1,30 +1,7 @@
 import { Toast } from '@ant-design/react-native';
 import { api } from '.';
-import { handleError } from '../utils/functions';
-import { AuthResponseType, ErrorResponse, DataResponse, ForgetParams, LoginParams, SignUpParams, VerfiyParams, SocialAuthArgs, ChangePasswordParams } from '../utils/types';
-
-const transformData = (data: DataResponse) => {
-    return {
-        verificationToken: data?.verificationToken,
-        token: data?.accessToken,
-        user: {
-            id: data.user?._id,
-            email: data.user?.email,
-            phone: data.user?.phone,
-            firstName: data.user?.firstName,
-            lastName: data.user?.lastName,
-            currency: data.user?.currency,
-            isActive: Boolean(data.user?.isActive),
-            isAdmin: Boolean(data.user?.isAdmin),
-            isEmailVerified: Boolean(data.user?.isEmailVerified),
-            isPhoneVerified: Boolean(data.user?.isPhoneVerified),
-            createdAt: data.user?.createdAt,
-            updatedAt: data.user?.updatedAt,
-            userRole: data.user?.userRole,
-            website: data.user?.website,
-        }
-    }
-}
+import { handleError, transformAuthData } from '../utils/functions';
+import { AuthResponseType, ErrorResponse, ForgetParams, LoginParams, SignUpParams, VerfiyParams, SocialAuthArgs, ChangePasswordParams } from '../utils/types';
 
 export const authApis = api.injectEndpoints({
     endpoints: (builder) => ({
@@ -36,7 +13,7 @@ export const authApis = api.injectEndpoints({
             }),
             transformResponse(baseQueryReturnValue: AuthResponseType) {
                 const { data } = baseQueryReturnValue;
-                return transformData(data)
+                return transformAuthData(data)
             },
             transformErrorResponse(baseQueryReturnValue: ErrorResponse) {
                 const error = handleError(baseQueryReturnValue);
@@ -52,7 +29,7 @@ export const authApis = api.injectEndpoints({
             }),
             transformResponse(baseQueryReturnValue: AuthResponseType) {
                 const { data } = baseQueryReturnValue;
-                return transformData(data)
+                return transformAuthData(data)
             },
             transformErrorResponse(baseQueryReturnValue: ErrorResponse) {
                 const error = handleError(baseQueryReturnValue);
@@ -68,7 +45,7 @@ export const authApis = api.injectEndpoints({
             }),
             transformResponse(baseQueryReturnValue: AuthResponseType) {
                 const { data } = baseQueryReturnValue;
-                return transformData(data)
+                return transformAuthData(data)
             },
             transformErrorResponse(baseQueryReturnValue: ErrorResponse) {
                 const error = handleError(baseQueryReturnValue);
@@ -84,7 +61,7 @@ export const authApis = api.injectEndpoints({
             }),
             transformResponse(baseQueryReturnValue: AuthResponseType) {
                 const { data } = baseQueryReturnValue;
-                return transformData(data)
+                return transformAuthData(data)
             },
             transformErrorResponse(baseQueryReturnValue: ErrorResponse) {
                 const error = handleError(baseQueryReturnValue);

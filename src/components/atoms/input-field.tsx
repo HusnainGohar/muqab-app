@@ -55,11 +55,13 @@ export const InputField: React.FC<InputFieldProps> = ({
   const [isFocused, setIsFocused] = useState(false);
   const phoneInput = useRef<PhoneInput>(null);
 
-  const isError = useMemo(() => errorMessage !== '', [errorMessage]);
+  const isError = errorMessage !== '';
 
-  const inputBorderColor = useMemo(() => {
-    return isError ? colors.red : isFocused ? colors.primary : colors.black;
-  }, [isFocused, isError]);
+  const inputBorderColor = isError
+    ? colors.red
+    : isFocused
+    ? colors.primary
+    : colors.black;
 
   const onChangeText = (value: string) => {
     onChange(value);
