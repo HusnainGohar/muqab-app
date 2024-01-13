@@ -17,31 +17,48 @@ import {
 } from '../screens/auth';
 import {
   authMainScreen,
+  becomeReaderScreen,
+  bottomTabs,
   changePasswordScreen,
+  colors,
+  creditsScreen,
   dashboardScreen,
+  deleteAccountScreen,
+  favouriteReadersScreen,
   forgetPasswordScreen,
+  helpSupportScreen,
   homeScreen,
   inboxScreen,
   loginScreen,
+  logoutScreen,
+  notificationSettingsScreen,
   privacyPolicyScreen,
   profileScreen,
+  profileSettingsScreen,
   registerScreen,
   resetPasswordScreen,
+  shareAppScreen,
   shopScreen,
   termsConditionsScreen,
+  transactionHistoryScreen,
   verifyOtpScreen,
 } from '../utils/constants';
 import { CompositeScreenProps } from '@react-navigation/native';
 import {
-  Home,
-  Inbox,
+  DeleteAccount,
+  HelpSupport,
+  Logout,
+  NotificationSettings,
   PrivacyPolicy,
-  Profile,
-  Shop,
+  ProfileSettings,
+  ShareApp,
   TermsConditions,
+  TransactionHistory,
 } from '../screens/general';
 import { useSelector } from '../store';
 import { useMemo } from 'react';
+import { Icon } from '@ant-design/react-native';
+import { BecomeReader, Credits, FavouriteReaders } from '../screens/client';
 
 export type StackParamList = {
   [authMainScreen]: undefined;
@@ -54,9 +71,19 @@ export type StackParamList = {
   [privacyPolicyScreen]: undefined;
   [termsConditionsScreen]: undefined;
   [dashboardScreen]: undefined;
+  [transactionHistoryScreen]: undefined;
+  [profileSettingsScreen]: undefined;
+  [notificationSettingsScreen]: undefined;
+  [shareAppScreen]: undefined;
+  [logoutScreen]: undefined;
+  [deleteAccountScreen]: undefined;
+  [helpSupportScreen]: undefined;
+  [creditsScreen]: undefined;
+  [favouriteReadersScreen]: undefined;
+  [becomeReaderScreen]: undefined;
 };
 
-type TabParamList = {
+export type TabParamList = {
   [homeScreen]: undefined;
   [shopScreen]: undefined;
   [inboxScreen]: undefined;
@@ -72,11 +99,24 @@ const Stack = createStackNavigator<StackParamList>();
 const Tab = createBottomTabNavigator<TabParamList>();
 
 const Dashboard = () => (
-  <Tab.Navigator>
-    <Tab.Screen name={homeScreen} component={Home} />
-    <Tab.Screen name={shopScreen} component={Shop} />
-    <Tab.Screen name={inboxScreen} component={Inbox} />
-    <Tab.Screen name={profileScreen} component={Profile} />
+  <Tab.Navigator
+    screenOptions={{
+      headerShown: false,
+      tabBarActiveTintColor: colors.primary,
+    }}>
+    {bottomTabs.map(tab => (
+      <Tab.Screen
+        key={tab.name}
+        name={tab.name}
+        component={tab.component}
+        options={{
+          tabBarLabel: tab.label,
+          tabBarIcon: ({ color, size }) => (
+            <Icon name={tab.icon} size={size} color={color} />
+          ),
+        }}
+      />
+    ))}
   </Tab.Navigator>
 );
 
@@ -108,6 +148,33 @@ export const Routes = () => {
       <Stack.Screen name={privacyPolicyScreen} component={PrivacyPolicy} />
       <Stack.Screen name={termsConditionsScreen} component={TermsConditions} />
       <Stack.Screen name={dashboardScreen} component={Dashboard} />
+      <Stack.Screen name={profileSettingsScreen} component={ProfileSettings} />
+      <Stack.Screen
+        name={notificationSettingsScreen}
+        component={NotificationSettings}
+      />
+      <Stack.Screen
+        name={transactionHistoryScreen}
+        component={TransactionHistory}
+      />
+      <Stack.Screen
+        name={favouriteReadersScreen}
+        component={FavouriteReaders}
+      />
+      <Stack.Screen name={creditsScreen} component={Credits} />
+      <Stack.Screen name={becomeReaderScreen} component={BecomeReader} />
+      <Stack.Screen name={shareAppScreen} component={ShareApp} />
+      <Stack.Screen name={helpSupportScreen} component={HelpSupport} />
+      <Stack.Screen
+        name={deleteAccountScreen}
+        component={DeleteAccount}
+        options={{ presentation: 'transparentModal' }}
+      />
+      <Stack.Screen
+        name={logoutScreen}
+        component={Logout}
+        options={{ presentation: 'transparentModal' }}
+      />
     </Stack.Navigator>
   );
 };

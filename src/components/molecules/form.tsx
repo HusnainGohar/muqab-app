@@ -44,6 +44,7 @@ export const Form: FC<FormProps> = ({
       ))}
       <Button
         type="primary"
+        width="full"
         isLoading={isLoading}
         onPress={handleSubmit(onSubmit)}
         title={submitButtonLabel}

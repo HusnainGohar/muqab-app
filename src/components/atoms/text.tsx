@@ -1,20 +1,27 @@
 import { Text as AntText } from '@ant-design/react-native';
 import { colors, fonts } from '../../utils/constants';
-import { StyleSheet, TextProps as AntTextProps } from 'react-native';
+import {
+  StyleSheet,
+  TextProps as AntTextProps,
+  ColorValue,
+} from 'react-native';
 import { ReactNode } from 'react';
 
-interface TextProps extends AntTextProps {
+export type TextTypeProp =
+  | 'regular'
+  | 'h1'
+  | 'h2'
+  | 'h3'
+  | 'h4'
+  | 'h5'
+  | 'h6'
+  | 'caption'
+  | 'link'
+  | undefined;
+export interface TextProps extends AntTextProps {
   children?: ReactNode;
-  type?:
-    | 'regular'
-    | 'h1'
-    | 'h2'
-    | 'h3'
-    | 'h4'
-    | 'h5'
-    | 'h6'
-    | 'caption'
-    | 'link';
+  type?: TextTypeProp;
+  color?: ColorValue;
   style?: any;
 }
 
@@ -22,10 +29,13 @@ export const Text: React.FC<TextProps> = ({
   style = {},
   type = 'regular',
   children = '',
+  color = colors.black,
   ...props
 }) => {
   return (
-    <AntText style={[styles.general, styles[type], style]} {...props}>
+    <AntText
+      style={[styles.general, styles[type], { color }, style]}
+      {...props}>
       {children}
     </AntText>
   );

@@ -153,7 +153,7 @@ export const InputField: React.FC<InputFieldProps> = ({
           )}
           {type === 'password' && (
             <Button
-              type="ghost"
+              variant="ghost"
               style={[styles.eyeIcon, { right: isError ? 25 : 0 }]}
               icon={isPassword ? 'eye' : 'eye-invisible'}
               onPress={() => setIsPassword(state => !state)}

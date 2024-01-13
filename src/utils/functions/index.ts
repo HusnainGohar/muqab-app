@@ -1,23 +1,24 @@
-import { Toast } from "@ant-design/react-native";
-import { DataResponse, ErrorResponse } from "../types";
-export * from './social-auth'
+import { Toast } from '@ant-design/react-native';
+import { DataResponse, ErrorResponse } from '../types';
+export * from './social-auth';
 
 export const handleError = (err: ErrorResponse) => {
-  const errorMessage = err?.data?.message ?? ''
-  const errorMessageDescription = err?.data?.data?.message ?? ''
+  const errorMessage = err?.data?.message ?? '';
+  const errorMessageDescription = err?.data?.data?.message ?? '';
+  const errorStatus = err.status ?? '';
   const error = {
     message: errorMessage,
-    status: err.status,
+    status: errorStatus,
     data: {
-      message: errorMessageDescription
-    }
-  }
+      message: errorMessageDescription,
+    },
+  };
   Toast.fail({
-    content: errorMessage,
+    content: errorMessage || `Something went wrong! ${errorStatus}`,
     duration: 2,
-  })
-  return error
-}
+  });
+  return error;
+};
 
 export const transformAuthData = (data: DataResponse) => {
   return {
@@ -38,6 +39,6 @@ export const transformAuthData = (data: DataResponse) => {
       updatedAt: data.user?.updatedAt,
       userRole: data.user?.userRole,
       website: data.user?.website,
-    }
-  }
-}
+    },
+  };
+};

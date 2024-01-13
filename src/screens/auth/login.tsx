@@ -82,6 +82,7 @@ export const Login = () => {
         </Text>
         <WhiteSpace size="lg" />
         <Button
+          width="full"
           type="primary"
           isLoading={isLoading}
           onPress={handleSubmit(handleLogin)}

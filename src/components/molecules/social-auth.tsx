@@ -65,19 +65,19 @@ export const SocialAuth: FC<SocialAuthProps> = ({
           <Flex justify="center" direction="column">
             <Flex style={styles.buttonRow} justify="between">
               <Button
-                type="ghost"
+                variant="ghost"
                 style={styles.button}
                 icon={<Facebook />}
                 onPress={handleFacebookAuth}
               />
               <Button
-                type="ghost"
+                variant="ghost"
                 style={styles.button}
                 icon={<Google />}
                 onPress={handleGoogleAuth}
               />
               <Button
-                type="ghost"
+                variant="ghost"
                 style={styles.button}
                 icon={<Apple />}
                 onPress={handleAppleAuth}
@@ -92,21 +92,21 @@ export const SocialAuth: FC<SocialAuthProps> = ({
           <Text type="h4">{title}</Text>
           <WhiteSpace size="lg" />
           <Button
-            type="ghost"
+            variant="ghost"
             leftIcon={<Facebook />}
             onPress={handleFacebookAuth}
             title="Facebook"
           />
           <WhiteSpace size="lg" />
           <Button
-            type="ghost"
+            variant="ghost"
             leftIcon={<Google />}
             onPress={handleGoogleAuth}
             title="Google"
           />
           <WhiteSpace size="lg" />
           <Button
-            type="ghost"
+            variant="ghost"
             leftIcon={<Apple />}
             onPress={handleAppleAuth}
             title="Apple"

@@ -11,7 +11,9 @@ export const AuthHeader: FC<AuthHeaderProps> = ({ title }) => {
     <Flex justify="center" direction="column">
       <Logo />
       <WhiteSpace size="lg" />
-      <Text type="h2">{title}</Text>
+      <Text style={{ textAlign: 'center' }} type="h1">
+        {title}
+      </Text>
       <WhiteSpace size="sm" />
       <Bottom />
     </Flex>

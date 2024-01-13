@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 import {
   Button as AntButton,
   Flex,
@@ -6,14 +6,17 @@ import {
   View,
 } from '@ant-design/react-native';
 import { StyleSheet } from 'react-native';
-import { Text } from './text';
+import { Text, TextTypeProp } from './text';
 import { colors, wp } from '../../utils/constants';
 import { IconNames } from '@ant-design/react-native/lib/icon';
 import { ButtonProps as AntButtonProps } from '@ant-design/react-native/lib/button';
+import { CustomWidth } from '../../utils/types';
 interface ButtonProps extends AntButtonProps {
+  width?: CustomWidth;
   style?: any;
   textStyle?: any;
-  title?: string;
+  textType?: TextTypeProp;
+  title?: ReactNode;
   onPress?: () => void;
   isLoading?: boolean;
   disabled?: boolean;
@@ -23,11 +26,13 @@ interface ButtonProps extends AntButtonProps {
   iconSize?: number | 'xs' | 'sm' | 'lg' | 'md' | 'xxs';
   iconColor?: string;
   type?: 'primary' | 'warning' | 'ghost';
+  variant?: 'primary' | 'warning' | 'ghost' | 'success';
 }
 
 export const Button: FC<ButtonProps> = ({
   style = {},
   textStyle = {},
+  textType = 'h4',
   title = '',
   onPress,
   isLoading,
@@ -38,21 +43,35 @@ export const Button: FC<ButtonProps> = ({
   iconColor,
   iconSize = 24,
   type = 'primary',
+  variant = 'primary',
+  width = 'auto',
   ...props
 }) => {
   const iconColorValue = iconColor
     ? iconColor
-    : type === 'ghost'
+    : variant === 'ghost'
     ? colors.primary
+    : variant === 'warning'
+    ? colors.black
     : colors.white;
+  const buttonWidth =
+    width === 'auto'
+      ? 'auto'
+      : width === 'full'
+      ? wp('80%')
+      : width === 'half'
+      ? wp('50%')
+      : width.includes('%')
+      ? wp(width)
+      : width;
   return (
     <AntButton
       type={type}
       loading={isLoading}
       disabled={isLoading || disabled}
       onPress={onPress}
-      style={[styles.general, styles[type], style]}
-      activeStyle={[styles.general, styles[type], style]}
+      style={[{ width: buttonWidth }, styles[variant], style]}
+      activeStyle={[{ width: buttonWidth }, styles[variant], style]}
       activeOpacity={0.5}
       {...props}>
       {icon ? (
@@ -77,8 +96,8 @@ export const Button: FC<ButtonProps> = ({
             )}
           </View>
           <Text
-            type="h4"
-            style={[styles.generalText, styles[`${type}Text`], textStyle]}>
+            type={textType}
+            style={[styles.generalText, styles[`${variant}Text`], textStyle]}>
             {title}
           </Text>
           <View>
@@ -95,15 +114,20 @@ export const Button: FC<ButtonProps> = ({
 };
 
 const styles = StyleSheet.create({
-  general: {
-    width: wp('80%'),
-  },
   generalText: {
     color: colors.white,
   },
   primary: {
     backgroundColor: colors.primary,
     borderColor: colors.primary,
+  },
+  warning: {
+    backgroundColor: colors.warning,
+    borderColor: colors.warning,
+  },
+  success: {
+    backgroundColor: colors.success,
+    borderColor: colors.success,
   },
   primaryText: {
     color: colors.white,
@@ -115,6 +139,10 @@ const styles = StyleSheet.create({
   ghostText: {
     color: colors.black,
   },
-  warning: {},
-  warningText: {},
+  warningText: {
+    color: colors.black,
+  },
+  successText: {
+    color: colors.white,
+  },
 });

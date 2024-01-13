@@ -22,6 +22,7 @@ export const AuthMain = () => {
       </Text>
       <WhiteSpace size="lg" />
       <Button
+        width="full"
         type="primary"
         leftIcon={'user'}
         onPress={() => navigate(registerScreen)}

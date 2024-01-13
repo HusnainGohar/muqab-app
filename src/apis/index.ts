@@ -9,10 +9,10 @@ export const api = createApi({
       const token = (getState() as any)?.auth?.token;
       // If we have a token set in state, let's assume that we should be passing it.
       if (token) {
-        headers.set('authorization', `${token}`)
+        headers.set('authorization', `${token}`);
       }
 
-      return headers
+      return headers;
     },
   }),
   endpoints: () => ({}),
