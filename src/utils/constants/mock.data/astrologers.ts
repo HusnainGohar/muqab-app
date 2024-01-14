@@ -1,3 +1,21 @@
+export const psychicCategories = [
+  { label: 'Clairvoyance', value: '', icon: '' },
+  { label: 'Tarot', value: '', icon: '' },
+  { label: 'Palm Reading', value: '', icon: '' },
+  { label: 'Coffee Cup Reading', value: '', icon: '' },
+  { label: 'Dream Interpretation', value: '', icon: '' },
+];
+
+export const psychicTopics = [
+  { label: 'Love & Relationship', value: '', icon: '' },
+  { label: 'Family & Friends', value: '', icon: '' },
+  { label: 'Soulmate & Twin Flames', value: '', icon: '' },
+  { label: 'Career & Success', value: '', icon: '' },
+  { label: 'Cheating & Breakups', value: '', icon: '' },
+  { label: 'Karma & Past Life', value: '', icon: '' },
+  { label: 'Pet Psychics', value: '', icon: '' },
+];
+
 export const astrologers = [
   {
     name: 'Sara Smith',

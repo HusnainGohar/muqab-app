@@ -1,5 +1,5 @@
 //@ts-nocheck
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Icon, InputItem, View, WhiteSpace } from '@ant-design/react-native';
 import { KeyboardTypeOptions, StyleSheet } from 'react-native';
 import { colors, fonts } from '../../utils/constants';
@@ -16,7 +16,6 @@ export type InputTypeOptions =
   | 'phone'
   | 'password'
   | 'digit'
-  | 'switch'
   | KeyboardTypeOptions
   | undefined;
 

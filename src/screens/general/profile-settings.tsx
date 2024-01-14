@@ -2,11 +2,12 @@ import { StyleSheet } from 'react-native';
 import { WhiteSpace } from '@ant-design/react-native';
 import { Layout } from '../../components/organisms';
 import { Form } from '../../components/molecules/form';
-import { registerFields } from '../../utils/input-fields-details';
-import { FormSchema, registerSchema } from '../../utils/schemas';
-import { useSignUpMutation } from '../../apis/auth';
-import { useOnAuthSuccess } from '../../hooks';
+import { profileSections } from '../../utils/input-fields-details';
+import { FormSchema, updateProfileSchema } from '../../utils/schemas';
 import { AuthStoreType } from '../../utils/types';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../store/slices';
+import { useUpdateProfileMutation } from '../../apis/profile';
 
 export const ProfileSettings = () => {
   const defaultValues = {
@@ -14,33 +15,31 @@ export const ProfileSettings = () => {
     lastName: '',
     email: '',
     phone: '',
-    password: '',
-    retypePassword: '',
+    dateOfBirth: '',
+    country: '',
+    city: '',
+    zipCode: '',
+    gender: '',
   };
-  const [registerUser, { isLoading: isLoading }] = useSignUpMutation();
-  const onAuthSuccess = useOnAuthSuccess();
-  const handleRegister = async (params: FormSchema) => {
-    const { firstName, lastName, email, phone, password } = params;
-    const res = (await registerUser({
-      firstName,
-      lastName,
-      email,
-      phone,
-      password,
-      website: '',
-    }).unwrap()) as AuthStoreType;
-    onAuthSuccess(res);
+  const [uploadProfile, { isLoading: isUpateProfileLoading }] =
+    useUpdateProfileMutation();
+  const dispatch = useDispatch();
+  const handleUpdateProfile = async (params: FormSchema) => {
+    console.log('params...', params);
+
+    // const { user } = (await uploadProfile(params).unwrap()) as AuthStoreType;
+    // dispatch(setUser({ user }));
   };
   return (
     <Layout title="Profile Settings" hasBack={true}>
       <WhiteSpace size="lg" />
       <Form
-        fields={registerFields}
-        validationSchema={registerSchema}
-        onSubmit={handleRegister}
+        sections={profileSections}
+        validationSchema={updateProfileSchema}
+        onSubmit={handleUpdateProfile}
         defaultValues={defaultValues}
         submitButtonLabel={'Update'}
-        isLoading={isLoading}
+        isLoading={isUpateProfileLoading}
       />
     </Layout>
   );

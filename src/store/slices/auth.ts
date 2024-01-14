@@ -1,24 +1,27 @@
-import { createSlice } from '@reduxjs/toolkit'
-import { AuthStoreType } from '../../utils/types'
+import { createSlice } from '@reduxjs/toolkit';
+import { AuthStoreType } from '../../utils/types';
 
 const initialState: AuthStoreType = {
   token: undefined,
-  user: undefined
-}
+  user: undefined,
+};
 
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
     logIn: (state, { payload }) => {
-      state.token = payload.token ?? state.token
-      state.user = payload.user ?? state.user
+      state.token = payload.token ?? state.token;
+      state.user = payload.user ?? state.user;
+    },
+    setUser: (state, { payload }) => {
+      state.user = payload.user ?? state.user;
     },
     logout: state => {
-      state.token = undefined
-      state.user = undefined
-    }
-  }
-})
+      state.token = undefined;
+      state.user = undefined;
+    },
+  },
+});
 
-export const { logIn, logout } = authSlice.actions
+export const { logIn, logout, setUser } = authSlice.actions;

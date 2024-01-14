@@ -1,40 +1,39 @@
 export interface DataResponse {
-  message?: string
+  message?: string;
   user: {
-    [key: string]: string | boolean | number
-  },
-  accessToken?: string
-  verificationToken?: string
+    [key: string]: string | boolean | number;
+  };
+  accessToken?: string;
+  verificationToken?: string;
 }
 export interface AuthResponseType {
-  code: number
-  data: DataResponse,
-  message: string
+  code: number;
+  data: DataResponse;
+  message: string;
 }
 export interface User {
-  _id: string,
-  createdAt: string,
-  currency: string,
-  email: string,
-  firstName: string,
-  isActive: boolean,
-  isAdmin: boolean,
-  isEmailVerified: boolean,
-  isPhoneVerified: boolean,
-  lastName: string,
-  phone: string,
-  updatedAt: string,
-  userRole: string,
-  website: string
+  _id: string;
+  createdAt: string;
+  currency: string;
+  email: string;
+  firstName: string;
+  isActive: boolean;
+  isAdmin: boolean;
+  isEmailVerified: boolean;
+  isPhoneVerified: boolean;
+  lastName: string;
+  phone: string;
+  updatedAt: string;
+  userRole: string;
 }
 export interface AuthStoreType {
   token?: string;
   verificationToken?: string;
-  user?: User
+  user?: User;
 }
 export interface LoginParams {
   username: string;
-  password: string
+  password: string;
 }
 
 export interface SignUpParams {
@@ -43,7 +42,6 @@ export interface SignUpParams {
   phone: string;
   firstName: string;
   lastName: string;
-  website: string
 }
 
 export interface VerfiyParams {
@@ -58,8 +56,8 @@ export interface ForgetParams {
 }
 
 export interface SocialAuthArgs {
-  authProvider: string
-  credentials: any
+  authProvider: string;
+  credentials: any;
 }
 
 export interface ChangePasswordParams {

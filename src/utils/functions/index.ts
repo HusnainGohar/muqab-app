@@ -38,7 +38,6 @@ export const transformAuthData = (data: DataResponse) => {
       createdAt: data.user?.createdAt,
       updatedAt: data.user?.updatedAt,
       userRole: data.user?.userRole,
-      website: data.user?.website,
     },
   };
 };

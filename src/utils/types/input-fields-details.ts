@@ -1,14 +1,30 @@
 import { InputModeOptions } from 'react-native';
 import { InputTypeOptions } from '../../components/atoms';
 
+export type SectionDetails = {
+  id: number;
+  title: string;
+  description?: string;
+  order: number;
+  fields: FieldDetails[];
+};
+
+export type FieldTypeOptions = InputTypeOptions | 'switch' | 'radio' | 'date';
+export interface Option {
+  label: string;
+  value: string;
+}
+
 export type FieldDetails = {
   name: string;
-  type?: InputTypeOptions;
+  type?: FieldTypeOptions;
   inputMode?: InputModeOptions;
   placeholder?: string;
   label?: string;
   subText?: string;
   isOTP?: boolean;
+  disabled?: boolean;
+  options?: Option[];
 };
 
 export interface InputFieldsDetails {

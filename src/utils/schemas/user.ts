@@ -93,3 +93,19 @@ export const resetPasswordSchema = z
     message: "Passwords don't match",
     path: ['retypePassword'], // path of error
   });
+
+export const updateProfileSchema = z
+  .object({
+    firstName: required,
+    lastName: required,
+    email: emailValidation,
+    phone: phoneValidation,
+    dateOfBirth: required,
+    gender: required,
+    country: required,
+    city: required,
+    zipCode: required,
+  })
+  .required();
+
+export type UpdateProfileSchema = z.infer<typeof updateProfileSchema>;

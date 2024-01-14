@@ -14,3 +14,15 @@ export interface ProfileMenu {
   title: string;
   options: ProfileMenuOption[];
 }
+
+export interface UpdateProfileParams {
+  firstName?: string;
+  lastName?: string;
+  city?: string;
+  dateOfBirth?: any;
+  country?: string;
+  zipCode?: string;
+  isNewsLetterAndHoroscopeEnabled?: boolean;
+  isEmailNotificationsEnabled?: boolean;
+  isNewOfferEmailsEnabled?: boolean;
+}

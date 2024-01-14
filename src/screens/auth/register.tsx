@@ -29,7 +29,6 @@ export const Register = () => {
       email,
       phone,
       password,
-      website: '',
     }).unwrap()) as AuthStoreType;
     onAuthSuccess(res);
   };

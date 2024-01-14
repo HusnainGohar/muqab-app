@@ -26,7 +26,7 @@ interface ButtonProps extends AntButtonProps {
   iconSize?: number | 'xs' | 'sm' | 'lg' | 'md' | 'xxs';
   iconColor?: string;
   type?: 'primary' | 'warning' | 'ghost';
-  variant?: 'primary' | 'warning' | 'ghost' | 'success';
+  variant?: 'primary' | 'warning' | 'ghost' | 'success' | 'danger';
 }
 
 export const Button: FC<ButtonProps> = ({
@@ -129,6 +129,10 @@ const styles = StyleSheet.create({
     backgroundColor: colors.success,
     borderColor: colors.success,
   },
+  danger: {
+    backgroundColor: colors.red,
+    borderColor: colors.red,
+  },
   primaryText: {
     color: colors.white,
   },
@@ -143,6 +147,9 @@ const styles = StyleSheet.create({
     color: colors.black,
   },
   successText: {
+    color: colors.white,
+  },
+  dangerText: {
     color: colors.white,
   },
 });

@@ -25,7 +25,7 @@ export const Layout: FC<LayoutProps> = ({
   title = '',
   subTitle = '',
   description = '',
-  isScrollable = false,
+  isScrollable = true,
   hasBack = false,
   children,
 }) => {
@@ -61,7 +61,7 @@ export const Layout: FC<LayoutProps> = ({
   return (
     <>
       <Header title={title} hasBack={hasBack} />
-      {isScrollable ? (
+      {!isScrollable ? (
         <Content />
       ) : (
         <KeyboardAwareScrollView
