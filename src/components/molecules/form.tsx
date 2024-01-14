@@ -31,7 +31,7 @@ export const Form: FC<FormProps> = ({
     defaultValues,
   });
   return (
-    <Flex direction="column">
+    <Flex direction="column" style={{ flex: 1 }}>
       {fields.map(item => (
         <Flex key={item.name}>
           <Controller
@@ -42,13 +42,19 @@ export const Form: FC<FormProps> = ({
           <WhiteSpace />
         </Flex>
       ))}
-      <Button
-        type="primary"
-        width="full"
-        isLoading={isLoading}
-        onPress={handleSubmit(onSubmit)}
-        title={submitButtonLabel}
-      />
+      <Flex
+        style={{
+          alignItems: 'flex-end',
+          flex: 2 / 3,
+        }}>
+        <Button
+          type="primary"
+          width="full"
+          isLoading={isLoading}
+          onPress={handleSubmit(onSubmit)}
+          title={submitButtonLabel}
+        />
+      </Flex>
     </Flex>
   );
 };

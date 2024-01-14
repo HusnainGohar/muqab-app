@@ -1,7 +1,6 @@
 import { StyleSheet } from 'react-native';
-import { hp } from '../../utils/constants';
 import { WhiteSpace } from '@ant-design/react-native';
-import { AuthLayout, Layout } from '../../components/organisms';
+import { Layout } from '../../components/organisms';
 import { FormSchema, changePasswordSchema } from '../../utils/schemas';
 import { changePasswordFields } from '../../utils/input-fields-details';
 import { Form } from '../../components/molecules/form';
@@ -24,7 +23,11 @@ export const ChangePassword = () => {
   };
 
   return (
-    <Layout title="Password Settings">
+    <Layout
+      title="Password Settings"
+      subTitle="Reset Your Password"
+      description="To Change your passwords enter the following values"
+      hasBack={true}>
       <WhiteSpace size="lg" />
       <WhiteSpace size="lg" />
       <Form

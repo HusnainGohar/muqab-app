@@ -58,7 +58,7 @@ export const Button: FC<ButtonProps> = ({
     width === 'auto'
       ? 'auto'
       : width === 'full'
-      ? wp('80%')
+      ? wp('90%')
       : width === 'half'
       ? wp('50%')
       : width.includes('%')

@@ -3,7 +3,7 @@ import { Logo } from '../../assets/svg';
 import { Flex, Icon } from '@ant-design/react-native';
 import { Text } from '../atoms';
 import { TouchableOpacity } from 'react-native';
-import { colors } from '../../utils/constants';
+import { colors, wp } from '../../utils/constants';
 import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 interface HeaderProps {
@@ -33,10 +33,15 @@ export const Header: FC<HeaderProps> = ({
         borderBottomWidth: 1,
         borderBottomColor: colors.grey,
         marginTop: top,
+        paddingHorizontal: wp('5%'),
       }}>
       <TouchableOpacity
         onPress={!!hasBack ? (canGoBack() ? goBack : () => {}) : onPressLeft}>
-        {!!hasBack ? <Icon name="left" /> : left}
+        {!!hasBack ? (
+          <Icon name="left" color={colors.black} size={'sm'} />
+        ) : (
+          left
+        )}
       </TouchableOpacity>
       {!!title ? (
         <Text type="h2">{title}</Text>

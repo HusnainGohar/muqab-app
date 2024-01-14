@@ -1,17 +1,18 @@
-import { InputModeOptions } from "react-native";
-import { InputTypeOptions } from "../../components/atoms";
+import { InputModeOptions } from 'react-native';
+import { InputTypeOptions } from '../../components/atoms';
 
 export type FieldDetails = {
-  name: string,
-  type?: InputTypeOptions,
-  inputMode?: InputModeOptions,
-  placeholder?: string,
-  label?: string,
-  isOTP?: boolean,
-}
+  name: string;
+  type?: InputTypeOptions;
+  inputMode?: InputModeOptions;
+  placeholder?: string;
+  label?: string;
+  subText?: string;
+  isOTP?: boolean;
+};
 
 export interface InputFieldsDetails {
-  [key: string]: FieldDetails
+  [key: string]: FieldDetails;
 }
 
 export type LoginFieldsDetails = {

@@ -1,22 +1,22 @@
-import { z } from "zod";
+import { z } from 'zod';
 
-const phoneRegex = /^\+(?:[0-9] ?){6,14}[0-9]$/
+const phoneRegex = /^\+(?:[0-9] ?){6,14}[0-9]$/;
 
-const required = z.string()
+const required = z.string();
 
-const emailValidation = z.string().email()
+const emailValidation = z.string().email();
 
 const phoneValidation = z.string().refine(value => phoneRegex.test(value), {
   message: 'Invalid Phone Number.',
-})
+});
 
 const passwordValidation = z.string().min(8, {
   message: 'Password must be at least 8 characters long.',
-})
+});
 
 const otpValidation = z.string().min(4, {
   message: 'OTP not Valid',
-})
+});
 
 export const loginWithEmailSchema = z
   .object({
@@ -42,16 +42,16 @@ export const registerSchema = z
     retypePassword: required,
   })
   .required()
-  .refine((data) => data.password === data.retypePassword, {
+  .refine(data => data.password === data.retypePassword, {
     message: "Passwords don't match",
-    path: ["retypePassword"], // path of error
+    path: ['retypePassword'], // path of error
   });
 
-export type RegisterSchema = z.infer<typeof registerSchema>
+export type RegisterSchema = z.infer<typeof registerSchema>;
 
 export type FormSchema = {
-  [key: string]: string
-}
+  [key: string]: string | boolean;
+};
 
 export const changePasswordSchema = z
   .object({
@@ -60,28 +60,28 @@ export const changePasswordSchema = z
     retypePassword: required,
   })
   .required()
-  .refine((data) => data.password === data.retypePassword, {
+  .refine(data => data.password === data.retypePassword, {
     message: "Passwords don't match",
-    path: ["retypePassword"], // path of error
+    path: ['retypePassword'], // path of error
   });
 
 export const verifyEmailSchema = z
   .object({
     email: emailValidation,
   })
-  .required()
+  .required();
 
 export const verifyPhoneSchema = z
   .object({
     email: phoneValidation,
   })
-  .required()
+  .required();
 
 export const verifyOtpSchema = z
   .object({
     otp: otpValidation,
   })
-  .required()
+  .required();
 
 export const resetPasswordSchema = z
   .object({
@@ -89,7 +89,7 @@ export const resetPasswordSchema = z
     retypePassword: required,
   })
   .required()
-  .refine((data) => data.password === data.retypePassword, {
+  .refine(data => data.password === data.retypePassword, {
     message: "Passwords don't match",
-    path: ["retypePassword"], // path of error
+    path: ['retypePassword'], // path of error
   });

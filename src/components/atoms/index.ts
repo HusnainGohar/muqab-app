@@ -5,3 +5,4 @@ export * from './text';
 export * from './link';
 export * from './separator';
 export * from './online-status';
+export * from './switch';

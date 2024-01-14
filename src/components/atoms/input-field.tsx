@@ -16,6 +16,7 @@ export type InputTypeOptions =
   | 'phone'
   | 'password'
   | 'digit'
+  | 'switch'
   | KeyboardTypeOptions
   | undefined;
 
