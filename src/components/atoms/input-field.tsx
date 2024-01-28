@@ -8,6 +8,7 @@ import { InputItemProps } from '@ant-design/react-native/lib/input-item';
 import { Button } from './button';
 import PhoneInput from 'react-native-phone-number-input';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
+import { FIELD_TYPE } from '../../utils/enums';
 
 export type InputTypeOptions =
   | 'number'
@@ -103,7 +104,7 @@ export const InputField: React.FC<InputFieldProps> = ({
         />
       ) : (
         <View style={[styles.inputView, { borderColor: inputBorderColor }]}>
-          {type === 'phone' ? (
+          {type === FIELD_TYPE.PHONE ? (
             <PhoneInput
               ref={phoneInput}
               layout="second"
@@ -132,7 +133,7 @@ export const InputField: React.FC<InputFieldProps> = ({
           ) : (
             <InputItem
               placeholder={placeholder}
-              type={isPassword ? type : 'text'}
+              type={isPassword ? type : FIELD_TYPE.TEXT}
               placeholderTextColor={colors.darkGrey}
               value={value}
               onFocus={() => setIsFocused(true)}
@@ -146,12 +147,12 @@ export const InputField: React.FC<InputFieldProps> = ({
                 styles.general,
                 styles.inputText,
                 inputStyle,
-                { paddingRight: type === 'password' ? 25 : 0 },
+                { paddingRight: type === FIELD_TYPE.PASSWORD ? 25 : 0 },
               ]}
               {...props}
             />
           )}
-          {type === 'password' && (
+          {type === FIELD_TYPE.PASSWORD && (
             <Button
               variant="ghost"
               style={[styles.eyeIcon, { right: isError ? 25 : 0 }]}

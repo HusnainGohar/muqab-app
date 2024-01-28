@@ -18,7 +18,6 @@ import {
 import {
   authMainScreen,
   becomeReaderScreen,
-  bottomTabs,
   changePasswordScreen,
   colors,
   creditsScreen,
@@ -28,6 +27,7 @@ import {
   forgetPasswordScreen,
   helpSupportScreen,
   homeScreen,
+  hp,
   inboxScreen,
   loginScreen,
   logoutScreen,
@@ -47,14 +47,19 @@ import { CompositeScreenProps } from '@react-navigation/native';
 import {
   DeleteAccount,
   HelpSupport,
+  Home,
+  Inbox,
   Logout,
   NotificationSettings,
   PrivacyPolicy,
+  Profile,
   ProfileSettings,
   ShareApp,
+  Shop,
   TermsConditions,
   TransactionHistory,
 } from '../screens/general';
+
 import { useSelector } from '../store';
 import { useMemo } from 'react';
 import { Icon } from '@ant-design/react-native';
@@ -104,77 +109,130 @@ const Dashboard = () => (
       headerShown: false,
       tabBarActiveTintColor: colors.primary,
     }}>
-    {bottomTabs.map(tab => (
-      <Tab.Screen
-        key={tab.name}
-        name={tab.name}
-        component={tab.component}
-        options={{
-          tabBarLabel: tab.label,
-          tabBarIcon: ({ color, size }) => (
-            <Icon name={tab.icon} size={size} color={color} />
-          ),
-        }}
-      />
-    ))}
+    <Tab.Screen
+      name={homeScreen}
+      options={{
+        tabBarLabel: 'Home',
+        tabBarIcon: ({ color, size }) => (
+          <Icon name="dashboard" size={size} color={color} />
+        ),
+      }}
+      component={Home}>
+      {/* {Home} */}
+    </Tab.Screen>
+    <Tab.Screen
+      name={shopScreen}
+      options={{
+        tabBarLabel: 'Shop',
+        tabBarIcon: ({ color, size }) => (
+          <Icon name="shopping-cart" size={size} color={color} />
+        ),
+      }}
+      component={Shop}></Tab.Screen>
+    <Tab.Screen
+      name={inboxScreen}
+      options={{
+        tabBarLabel: 'Inbox',
+        tabBarIcon: ({ color, size }) => (
+          <Icon name="message" size={size} color={color} />
+        ),
+      }}
+      component={Inbox}></Tab.Screen>
+    <Tab.Screen
+      name={profileScreen}
+      options={{
+        tabBarLabel: 'Profile',
+        tabBarIcon: ({ color, size }) => (
+          <Icon name="user" size={size} color={color} />
+        ),
+      }}
+      component={Profile}></Tab.Screen>
   </Tab.Navigator>
 );
 
 export const Routes = () => {
   const auth = useSelector(state => state.auth);
+  const { user, token } = auth;
 
   const initialRouteName = useMemo(() => {
-    const { user, token } = auth;
     if (!token) return authMainScreen;
     if (!user?.isEmailVerified) return verifyOtpScreen;
     // if (!user?.isPhoneVerified) return verifyOtpScreen;
     return dashboardScreen;
-  }, [auth]);
+  }, [user, token]);
 
   return (
     <Stack.Navigator
       initialRouteName={initialRouteName}
       screenOptions={{ headerShown: false }}>
-      {/* Auth Routes */}
-      <Stack.Screen name={authMainScreen} component={AuthMain} />
-      <Stack.Screen name={loginScreen} component={Login} />
-      <Stack.Screen name={registerScreen} component={Register} />
-      <Stack.Screen name={forgetPasswordScreen} component={ForgetPassword} />
-      <Stack.Screen name={verifyOtpScreen} component={VerifyOtp} />
-      <Stack.Screen name={resetPasswordScreen} component={ResetPassword} />
-      <Stack.Screen name={changePasswordScreen} component={ChangePassword} />
-
+      {!token ? (
+        <>
+          {/* Auth Routes */}
+          <Stack.Screen
+            name={authMainScreen}
+            component={AuthMain}></Stack.Screen>
+          <Stack.Screen name={loginScreen} component={Login}></Stack.Screen>
+          <Stack.Screen
+            name={registerScreen}
+            component={Register}></Stack.Screen>
+          <Stack.Screen
+            name={forgetPasswordScreen}
+            component={ForgetPassword}></Stack.Screen>
+          <Stack.Screen
+            name={verifyOtpScreen}
+            component={VerifyOtp}></Stack.Screen>
+          <Stack.Screen
+            name={resetPasswordScreen}
+            component={ResetPassword}></Stack.Screen>
+        </>
+      ) : (
+        <>
+          {/* Protected Routes */}
+          <Stack.Screen
+            name={dashboardScreen}
+            component={Dashboard}></Stack.Screen>
+          <Stack.Screen
+            name={profileSettingsScreen}
+            component={ProfileSettings}></Stack.Screen>
+          <Stack.Screen
+            name={notificationSettingsScreen}
+            component={NotificationSettings}></Stack.Screen>
+          <Stack.Screen
+            name={changePasswordScreen}
+            component={ChangePassword}></Stack.Screen>
+          <Stack.Screen
+            name={transactionHistoryScreen}
+            component={TransactionHistory}></Stack.Screen>
+          <Stack.Screen
+            name={favouriteReadersScreen}
+            component={FavouriteReaders}></Stack.Screen>
+          <Stack.Screen name={creditsScreen} component={Credits}></Stack.Screen>
+          <Stack.Screen
+            name={becomeReaderScreen}
+            component={BecomeReader}></Stack.Screen>
+          <Stack.Screen
+            name={shareAppScreen}
+            component={ShareApp}></Stack.Screen>
+          <Stack.Screen
+            name={helpSupportScreen}
+            component={HelpSupport}></Stack.Screen>
+          <Stack.Screen
+            name={deleteAccountScreen}
+            options={{ presentation: 'transparentModal' }}
+            component={DeleteAccount}></Stack.Screen>
+          <Stack.Screen
+            name={logoutScreen}
+            options={{ presentation: 'transparentModal' }}
+            component={Logout}></Stack.Screen>
+        </>
+      )}
       {/* General Routes */}
-      <Stack.Screen name={privacyPolicyScreen} component={PrivacyPolicy} />
-      <Stack.Screen name={termsConditionsScreen} component={TermsConditions} />
-      <Stack.Screen name={dashboardScreen} component={Dashboard} />
-      <Stack.Screen name={profileSettingsScreen} component={ProfileSettings} />
       <Stack.Screen
-        name={notificationSettingsScreen}
-        component={NotificationSettings}
-      />
+        name={privacyPolicyScreen}
+        component={PrivacyPolicy}></Stack.Screen>
       <Stack.Screen
-        name={transactionHistoryScreen}
-        component={TransactionHistory}
-      />
-      <Stack.Screen
-        name={favouriteReadersScreen}
-        component={FavouriteReaders}
-      />
-      <Stack.Screen name={creditsScreen} component={Credits} />
-      <Stack.Screen name={becomeReaderScreen} component={BecomeReader} />
-      <Stack.Screen name={shareAppScreen} component={ShareApp} />
-      <Stack.Screen name={helpSupportScreen} component={HelpSupport} />
-      <Stack.Screen
-        name={deleteAccountScreen}
-        component={DeleteAccount}
-        options={{ presentation: 'transparentModal' }}
-      />
-      <Stack.Screen
-        name={logoutScreen}
-        component={Logout}
-        options={{ presentation: 'transparentModal' }}
-      />
+        name={termsConditionsScreen}
+        component={TermsConditions}></Stack.Screen>
     </Stack.Navigator>
   );
 };

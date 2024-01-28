@@ -1,19 +1,19 @@
-export const psychicCategories = [
-  { label: 'Clairvoyance', value: '', icon: '' },
-  { label: 'Tarot', value: '', icon: '' },
-  { label: 'Palm Reading', value: '', icon: '' },
-  { label: 'Coffee Cup Reading', value: '', icon: '' },
-  { label: 'Dream Interpretation', value: '', icon: '' },
+export const psychicTools = [
+  { label: 'Clairvoyance', value: 'clairvoyance', icon: '' },
+  { label: 'Tarot', value: 'tarot', icon: '' },
+  { label: 'Palm Reading', value: 'palm-reading', icon: '' },
+  { label: 'Coffee Cup Reading', value: 'coffee-cup-reading', icon: '' },
+  { label: 'Dream Interpretation', value: 'dream-interpretation', icon: '' },
 ];
 
 export const psychicTopics = [
-  { label: 'Love & Relationship', value: '', icon: '' },
-  { label: 'Family & Friends', value: '', icon: '' },
-  { label: 'Soulmate & Twin Flames', value: '', icon: '' },
-  { label: 'Career & Success', value: '', icon: '' },
-  { label: 'Cheating & Breakups', value: '', icon: '' },
-  { label: 'Karma & Past Life', value: '', icon: '' },
-  { label: 'Pet Psychics', value: '', icon: '' },
+  { label: 'Love & Relationship', value: 'love-relationship', icon: '' },
+  { label: 'Family & Friends', value: 'family-friends', icon: '' },
+  { label: 'Soulmate & Twin Flames', value: 'soulmate-twin-flames', icon: '' },
+  { label: 'Career & Success', value: 'career-success', icon: '' },
+  { label: 'Cheating & Breakups', value: 'cheating-breakups', icon: '' },
+  { label: 'Karma & Past Life', value: 'karma-past-life', icon: '' },
+  { label: 'Pet Psychics', value: 'pet-psychics', icon: '' },
 ];
 
 export const astrologers = [

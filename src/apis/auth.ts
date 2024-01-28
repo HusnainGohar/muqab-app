@@ -2,7 +2,7 @@ import { Toast } from '@ant-design/react-native';
 import { api } from '.';
 import { handleError, transformAuthData } from '../utils/functions';
 import {
-  AuthResponseType,
+  ResponseType,
   ErrorResponse,
   ForgetParams,
   LoginParams,
@@ -20,7 +20,7 @@ export const authApis = api.injectEndpoints({
         method: 'POST',
         body: { username, password },
       }),
-      transformResponse(baseQueryReturnValue: AuthResponseType) {
+      transformResponse(baseQueryReturnValue: ResponseType) {
         const { data } = baseQueryReturnValue;
         return transformAuthData(data);
       },
@@ -36,7 +36,7 @@ export const authApis = api.injectEndpoints({
         method: 'POST',
         body: { email, password, phone, firstName, lastName },
       }),
-      transformResponse(baseQueryReturnValue: AuthResponseType) {
+      transformResponse(baseQueryReturnValue: ResponseType) {
         const { data } = baseQueryReturnValue;
         return transformAuthData(data);
       },
@@ -52,7 +52,7 @@ export const authApis = api.injectEndpoints({
         method: 'POST',
         body: args.credentials,
       }),
-      transformResponse(baseQueryReturnValue: AuthResponseType) {
+      transformResponse(baseQueryReturnValue: ResponseType) {
         const { data } = baseQueryReturnValue;
         return transformAuthData(data);
       },
@@ -68,7 +68,7 @@ export const authApis = api.injectEndpoints({
         method: 'POST',
         body: { username, otp, forResetPassword },
       }),
-      transformResponse(baseQueryReturnValue: AuthResponseType) {
+      transformResponse(baseQueryReturnValue: ResponseType) {
         const { data } = baseQueryReturnValue;
         return transformAuthData(data);
       },
@@ -107,7 +107,7 @@ export const authApis = api.injectEndpoints({
           verificationToken: data.verificationToken,
         },
       }),
-      transformResponse(baseQueryReturnValue: AuthResponseType) {
+      transformResponse(baseQueryReturnValue: ResponseType) {
         const { data, code } = baseQueryReturnValue;
         if (code === 1) {
           Toast.success({
@@ -129,7 +129,7 @@ export const authApis = api.injectEndpoints({
         method: 'POST',
         body: { password: data.password, newPassword: data.newPassword },
       }),
-      transformResponse(baseQueryReturnValue: AuthResponseType) {
+      transformResponse(baseQueryReturnValue: ResponseType) {
         const { data, code } = baseQueryReturnValue;
         if (code === 1) {
           Toast.success({

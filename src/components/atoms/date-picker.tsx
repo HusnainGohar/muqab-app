@@ -1,30 +1,31 @@
-import {
-  DatePicker as AntDatePicker,
-  Flex,
-  Icon,
-  View,
-  WhiteSpace,
-} from '@ant-design/react-native';
-import { DatePickerProps as AntDatePickerProps } from '@ant-design/react-native/lib/date-picker';
+import { Flex, Icon, View, WhiteSpace } from '@ant-design/react-native';
+import RNDatePicker, {
+  DatePickerProps as RNDatePickerProps,
+} from 'react-native-date-picker';
 import { useState } from 'react';
 import { Text } from './text';
 import { StyleSheet } from 'react-native';
 import { colors, wp } from '../../utils/constants';
+import dayjs from 'dayjs';
 
-export interface DatePickerProps extends AntDatePickerProps {
+export interface DatePickerProps extends RNDatePickerProps {
   errorMessage?: string;
   placeholder?: string;
+  onChange?: (date: Date) => void;
 }
 
 export const DatePicker = ({
   errorMessage = '',
   placeholder = 'YYYY-MM-DD',
   title,
-  value,
+  date,
   onChange,
   ...props
 }: DatePickerProps) => {
   const [isVisible, setIsVisible] = useState(false);
+  let value: any = dayjs(date);
+  value = value.isValid() ? value : dayjs();
+  value = value.toDate();
 
   return (
     <View>
@@ -37,9 +38,12 @@ export const DatePicker = ({
       <Flex
         justify="between"
         onPress={() => setIsVisible(true)}
-        style={styles.general}>
-        <Text color={!!value ? colors.black : colors.darkGrey}>
-          {!!value ? value?.toDateString() : placeholder}
+        style={[
+          styles.general,
+          { borderColor: colors[!errorMessage ? 'black' : 'red'] },
+        ]}>
+        <Text color={!!date ? colors.black : colors.darkGrey}>
+          {!!date ? dayjs(value).format('MMM DD, YYYY') : placeholder}
         </Text>
         <Icon name="calendar" color={colors.darkGrey} />
       </Flex>
@@ -47,38 +51,15 @@ export const DatePicker = ({
       <Text style={styles.errorMessage} type="caption">
         {errorMessage}
       </Text>
-      <AntDatePicker
-        visible={isVisible}
-        value={value}
-        onChange={onChange}
-        onOk={() => setIsVisible(false)}
-        onDismiss={() => setIsVisible(false)}
-        okText={
-          <Text type="h6" color={colors.primary}>
-            Done
-          </Text>
-        }
-        dismissText={
-          <Text type="h6" color={colors.darkGrey}>
-            Cancel
-          </Text>
-        }
-        title={!!title ? <Text type="h5">{title}</Text> : null}
-        locale={{
-          DatePickerLocale: {
-            year: '',
-            day: '',
-            month: '',
-            hour: '',
-            minute: '',
-            am: '',
-            pm: '',
-          },
-          okText: 'Done',
-          dismissText: 'Cancel',
-          extra: '',
+      <RNDatePicker
+        open={isVisible}
+        date={value}
+        modal
+        onCancel={() => setIsVisible(false)}
+        onConfirm={newDate => {
+          setIsVisible(false);
+          onChange?.(newDate);
         }}
-        styles={{}}
         {...props}
       />
     </View>
@@ -91,7 +72,6 @@ const styles = StyleSheet.create({
     width: wp('90%'),
     borderWidth: 1,
     borderRadius: 8,
-    borderColor: colors.black,
     paddingHorizontal: wp('5%'),
   },
   errorMessage: {

@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { BASE_URL } from '../../config';
+import { AdvisorQueryKey } from '../utils/constants';
 
 export const api = createApi({
   reducerPath: 'api',
@@ -16,4 +17,5 @@ export const api = createApi({
     },
   }),
   endpoints: () => ({}),
+  tagTypes: [AdvisorQueryKey],
 });

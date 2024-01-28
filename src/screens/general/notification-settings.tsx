@@ -4,7 +4,11 @@ import { Layout } from '../../components/organisms';
 import { FormSchema } from '../../utils/schemas';
 import { emailSettingsFields } from '../../utils/input-fields-details';
 import { Form } from '../../components/molecules/form';
-import { useChangePasswordMutation } from '../../apis/auth';
+import { useSelector } from '../../store';
+import { useUpdateProfileMutation } from '../../apis/profile';
+import { AuthStoreType } from '../../utils/types';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../store/slices';
 
 export const NotificationSettings = () => {
   const defaultValues = {
@@ -13,13 +17,24 @@ export const NotificationSettings = () => {
     isNewsLetterAndHoroscopeEnabled: false,
   };
 
-  const [changePassword, { isLoading }] = useChangePasswordMutation();
+  const { user, token } = useSelector(state => state.auth);
+  console.log('token...', token);
 
-  const handleChangeNotificationSettings = (params: FormSchema) => {
-    // changePassword({
-    //   password: params.oldPassword,
-    //   newPassword: params.password,
-    // });
+  const {
+    isEmailNotificationsEnabled,
+    isNewOfferEmailsEnabled,
+    isNewsLetterAndHoroscopeEnabled,
+  } = user ?? {};
+
+  const dispatch = useDispatch();
+
+  const [updateProfile, { isLoading }] = useUpdateProfileMutation();
+
+  const handleChangeNotificationSettings = async (params: FormSchema) => {
+    const { user } = (await updateProfile(params).unwrap()) as AuthStoreType;
+    console.log('user...', user);
+
+    dispatch(setUser({ user }));
   };
 
   return (
@@ -31,7 +46,11 @@ export const NotificationSettings = () => {
       <WhiteSpace size="lg" />
       <Form
         fields={emailSettingsFields}
-        validationSchema={{}}
+        values={{
+          isEmailNotificationsEnabled,
+          isNewOfferEmailsEnabled,
+          isNewsLetterAndHoroscopeEnabled,
+        }}
         submitButtonLabel="Update"
         onSubmit={handleChangeNotificationSettings}
         defaultValues={defaultValues}

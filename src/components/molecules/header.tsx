@@ -3,7 +3,7 @@ import { Logo } from '../../assets/svg';
 import { Flex, Icon } from '@ant-design/react-native';
 import { Text } from '../atoms';
 import { TouchableOpacity } from 'react-native';
-import { colors, wp } from '../../utils/constants';
+import { colors, hp, wp } from '../../utils/constants';
 import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 interface HeaderProps {
@@ -28,8 +28,9 @@ export const Header: FC<HeaderProps> = ({
   return (
     <Flex
       justify="between"
+      align="center"
       style={{
-        paddingVertical: !!title ? 15 : 20,
+        height: hp(`8%`),
         borderBottomWidth: 1,
         borderBottomColor: colors.grey,
         marginTop: top,

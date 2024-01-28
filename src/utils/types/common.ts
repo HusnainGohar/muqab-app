@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { ModalProps as AntModalProps } from '@ant-design/react-native/lib/modal/Modal';
+import { User } from './auth';
 
 export interface ErrorResponse {
   data: {
@@ -43,4 +44,8 @@ export interface ModalProps extends AntModalProps {
   applyButtonText?: string;
   cancelButtonText?: string;
   children?: ReactNode;
+}
+
+export interface SuccessType {
+  user?: User;
 }

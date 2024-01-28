@@ -6,13 +6,19 @@ export interface DataResponse {
   accessToken?: string;
   verificationToken?: string;
 }
-export interface AuthResponseType {
+export interface ResponseType {
   code: number;
   data: DataResponse;
   message: string;
 }
-export interface User {
+
+export type ToolTopicType = {
   _id: string;
+  name: string;
+  title: string;
+};
+export interface User {
+  id: string;
   createdAt: string;
   currency: string;
   email: string;
@@ -25,6 +31,21 @@ export interface User {
   phone: string;
   updatedAt: string;
   userRole: string;
+  isEmailNotificationsEnabled: true;
+  isNewOfferEmailsEnabled: true;
+  isNewsLetterAndHoroscopeEnabled: true;
+  media?: string[];
+  gifts?: string[];
+  tools?: ToolTopicType[];
+  hobbies?: string[];
+  languages?: string[];
+  permissions?: [];
+  topics?: ToolTopicType[];
+  profilePic?: string;
+  dateOfBirth?: string;
+  gender?: string;
+  country?: string;
+  city?: string;
 }
 export interface AuthStoreType {
   token?: string;

@@ -15,6 +15,14 @@ import {
   transactionHistoryScreen,
 } from './route-names';
 
+export const IMAGE_PLACEHOLDER =
+  'https://beforeigosolutions.com/wp-content/uploads/2021/12/dummy-profile-pic-300x300-1.png';
+
+export const IMAGE_PICKER_OPTIONS = [
+  { value: 'openCamera', label: 'Open Camera' },
+  { value: 'openPicker', label: 'Select from Gallery' },
+];
+
 export const profileMenu: ProfileMenu[] = [
   {
     title: 'PROFILE',

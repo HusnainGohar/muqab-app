@@ -1,11 +1,13 @@
 import { Flex, View, WhiteSpace, WingBlank } from '@ant-design/react-native';
-import { colors, hp, wp } from '../../utils/constants';
+import { IMAGE_PLACEHOLDER, colors, hp, wp } from '../../utils/constants';
 import { generalStyles } from '../../utils/styles';
 import { Image } from 'react-native';
 import { Text } from './text';
 import { OnlineStatus } from './online-status';
 import { AirbnbRating } from 'react-native-ratings';
 import { Button } from './button';
+import { ONLINE_STATUS } from '../../utils/enums';
+import { OnlineStatus as OnlineStatusType } from '../../utils/types';
 
 export interface CardProps {
   imageUrl?: string;
@@ -18,22 +20,22 @@ export interface CardProps {
 }
 
 export const Card = ({
-  imageUrl,
+  imageUrl = IMAGE_PLACEHOLDER,
   name,
-  ratings,
-  description,
-  onlineStatus,
-  mailRate,
-  chatRate,
+  ratings = 0,
+  description = '',
+  onlineStatus = ONLINE_STATUS.OFFLINE,
+  mailRate = 0,
+  chatRate = 0,
 }: CardProps) => {
-  const isOnline = onlineStatus === 'online';
-  const isBusy = onlineStatus === 'busy';
+  const isOnline = onlineStatus === ONLINE_STATUS.ONLINE;
+  const isBusy = onlineStatus === ONLINE_STATUS.BUSY;
   const chatButtonVariant =
-    onlineStatus === 'online'
+    onlineStatus === ONLINE_STATUS.ONLINE
       ? 'success'
-      : onlineStatus === 'busy'
+      : onlineStatus === ONLINE_STATUS.BUSY
       ? 'danger'
-      : onlineStatus === 'away'
+      : onlineStatus === ONLINE_STATUS.AWAY
       ? 'warning'
       : 'ghost';
 
@@ -49,11 +51,19 @@ export const Card = ({
       }}>
       <Image
         source={{ uri: imageUrl }}
-        style={{ height: '100%', width: wp('30%') }}
+        style={{
+          height: '100%',
+          width: wp('30%'),
+        }}
       />
-      <View style={{ padding: wp('3%'), width: wp('60%') }}>
+      <View
+        style={{
+          padding: wp('3%'),
+          width: wp('60%'),
+          ...generalStyles.shadowContainer,
+        }}>
         <Text type="h4">{name?.toUpperCase()}</Text>
-        <OnlineStatus status={onlineStatus} />
+        <OnlineStatus status={onlineStatus as OnlineStatusType} />
         <WhiteSpace size="xs" />
         <View
           style={{

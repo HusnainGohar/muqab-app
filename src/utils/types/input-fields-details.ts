@@ -9,7 +9,13 @@ export type SectionDetails = {
   fields: FieldDetails[];
 };
 
-export type FieldTypeOptions = InputTypeOptions | 'switch' | 'radio' | 'date';
+export type FieldTypeOptions =
+  | InputTypeOptions
+  | 'switch'
+  | 'radio'
+  | 'date'
+  | 'datetime'
+  | 'time';
 export interface Option {
   label: string;
   value: string;

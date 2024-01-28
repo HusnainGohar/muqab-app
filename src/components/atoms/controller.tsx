@@ -8,6 +8,8 @@ import { FieldTypeOptions, Option } from '../../utils/types';
 import { InputModeOptions } from 'react-native';
 import { DatePicker } from './date-picker';
 import { Radio } from './radio';
+import dayjs from 'dayjs';
+import { FIELD_TYPE } from '../../utils/enums';
 
 interface ControllerProps {
   name: string;
@@ -28,6 +30,7 @@ export const Controller: FC<ControllerProps> = ({
   name,
   type,
   options = [],
+  errorMessage,
   ...props
 }) => {
   return (
@@ -35,7 +38,7 @@ export const Controller: FC<ControllerProps> = ({
       control={control}
       render={({ field: { onChange, onBlur, value } }) => {
         switch (type) {
-          case 'switch':
+          case FIELD_TYPE.SWITCH:
             return (
               <View>
                 <WhiteSpace size="lg" />
@@ -50,22 +53,28 @@ export const Controller: FC<ControllerProps> = ({
                 />
               </View>
             );
-          case 'radio':
+          case FIELD_TYPE.RADIO:
             return (
               <Radio
                 label={props.label}
                 options={options}
                 value={value}
                 onChange={onChange}
+                errorMessage={errorMessage}
               />
             );
-          case 'date':
+          case FIELD_TYPE.DATE:
+          case FIELD_TYPE.DATE_TIME:
+          case FIELD_TYPE.TIME:
+            const isDateTime = type === FIELD_TYPE.DATE_TIME;
+            const isTime = type === FIELD_TYPE.TIME;
             return (
               <DatePicker
-                mode="date"
+                mode={type}
                 title={props.label}
-                value={value}
-                onChange={onChange}
+                date={value}
+                onChange={date => onChange(dayjs(date).toDate())}
+                errorMessage={errorMessage}
               />
             );
           default:
@@ -74,6 +83,9 @@ export const Controller: FC<ControllerProps> = ({
                 onChange={onChange}
                 value={value}
                 onBlur={onBlur}
+                //@ts-ignore
+                type={type}
+                errorMessage={errorMessage}
                 {...props}
               />
             );

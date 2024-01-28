@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { z } from 'zod';
 
 const phoneRegex = /^\+(?:[0-9] ?){6,14}[0-9]$/;
@@ -17,6 +18,13 @@ const passwordValidation = z.string().min(8, {
 const otpValidation = z.string().min(4, {
   message: 'OTP not Valid',
 });
+
+const dateOfBirthValidation = z
+  .date()
+  .max(
+    dayjs().subtract(18, 'years').toDate(),
+    'You must be atleast 18 year old to use the App',
+  );
 
 export const loginWithEmailSchema = z
   .object({
@@ -50,7 +58,7 @@ export const registerSchema = z
 export type RegisterSchema = z.infer<typeof registerSchema>;
 
 export type FormSchema = {
-  [key: string]: string | boolean;
+  [key: string]: string | boolean | Date | undefined;
 };
 
 export const changePasswordSchema = z
@@ -100,11 +108,7 @@ export const updateProfileSchema = z
     lastName: required,
     email: emailValidation,
     phone: phoneValidation,
-    dateOfBirth: required,
-    gender: required,
-    country: required,
-    city: required,
-    zipCode: required,
+    dateOfBirth: dateOfBirthValidation,
   })
   .required();
 

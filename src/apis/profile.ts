@@ -1,11 +1,18 @@
+import { Toast } from '@ant-design/react-native';
 import { api } from '.';
 import { handleError } from '../utils/functions';
-import { UpdateProfileParams, ErrorResponse } from '../utils/types';
+import {
+  UpdateProfileParams,
+  ErrorResponse,
+  ResponseType,
+} from '../utils/types';
 
 export const profileApis = api.injectEndpoints({
   endpoints: builder => ({
     uploadProfilePic: builder.mutation<any, any>({
       query: file => {
+        console.log('file...', file);
+
         const formData = new FormData();
         formData.append('image', file);
         return {
@@ -13,6 +20,16 @@ export const profileApis = api.injectEndpoints({
           method: 'PATCH',
           body: formData,
         };
+      },
+      transformResponse(baseQueryReturnValue: ResponseType) {
+        const { data, code } = baseQueryReturnValue;
+        if (code === 1) {
+          Toast.success({
+            content: data?.message,
+            duration: 2,
+          });
+        }
+        return data;
       },
       transformErrorResponse(baseQueryReturnValue: ErrorResponse) {
         const error = handleError(baseQueryReturnValue);
@@ -26,6 +43,20 @@ export const profileApis = api.injectEndpoints({
         method: 'PATCH',
         body: data,
       }),
+      transformResponse(baseQueryReturnValue: ResponseType) {
+        const { data, code } = baseQueryReturnValue;
+        if (code === 1) {
+          Toast.success({
+            content: data?.message,
+            duration: 2,
+          });
+        }
+        return data;
+      },
+      transformErrorResponse(baseQueryReturnValue: ErrorResponse) {
+        const error = handleError(baseQueryReturnValue);
+        return error;
+      },
     }),
   }),
 });

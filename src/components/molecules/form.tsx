@@ -40,6 +40,7 @@ export const Form: FC<FormProps> = ({
   });
 
   const errors = { ...(validationErrors ?? {}), ...(apiErrors ?? {}) };
+  console.log('errors...', errors);
 
   const Fields = ({ fields }: { fields: FieldDetails[] }) => {
     return (
@@ -71,7 +72,7 @@ export const Form: FC<FormProps> = ({
               <Text type="h3" color={colors.primary}>
                 {section.title}
               </Text>
-              {!!section.description && (
+              {!!section?.description && (
                 <Text type="h5" color={colors.darkGrey}>
                   {section.description}
                 </Text>

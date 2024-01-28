@@ -19,7 +19,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 export const Profile = () => {
   const { navigate }: StackNavigationProp<StackParamList> = useNavigation();
   return (
-    <Layout title="Profile" isScrollable={false}>
+    <Layout title="Profile" isScrollable={true}>
       {profileMenu.map((item, i) => (
         <View key={i}>
           <Text type="h3" color={colors.darkGrey}>
