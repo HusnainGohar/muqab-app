@@ -5,9 +5,9 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { WhiteSpace } from '@ant-design/react-native';
+import { Flex, Icon, WhiteSpace } from '@ant-design/react-native';
 import { Layout } from '../../components/organisms';
-import { Card, Text } from '../../components/atoms';
+import { Button, Card, Text } from '../../components/atoms';
 import { colors, hp, wp } from '../../utils/constants';
 import { useGetAdvisorQuery } from '../../apis/advisor';
 import { useState } from 'react';
@@ -61,8 +61,13 @@ export const Home = () => {
                     borderWidth: 1,
                     borderColor:
                       colors[isCategorySelected ? 'primary' : 'black'],
-                  }}
-                />
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  {!!category?.icon && (
+                    <Icon name={category.icon} size={'lg'} />
+                  )}
+                </View>
                 <WhiteSpace size="md" />
                 <Text
                   type="h5"
@@ -75,6 +80,23 @@ export const Home = () => {
           })}
         </ScrollView>
       </View>
+      <WhiteSpace size="lg" />
+      <Flex justify="between">
+        <Button
+          title="Popularity"
+          style={{ width: wp('40%'), borderRadius: 100 }}
+        />
+        <Button
+          title="Filters"
+          variant="ghost"
+          style={{
+            width: wp('40%'),
+            borderRadius: 100,
+            backgroundColor: `${colors.secondary}80`,
+          }}
+          rightIcon={'filter'}
+        />
+      </Flex>
       <WhiteSpace size="lg" />
       <Text type="h3">Astrologers</Text>
       <WhiteSpace size="lg" />

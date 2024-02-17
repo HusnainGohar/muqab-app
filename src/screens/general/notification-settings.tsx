@@ -1,14 +1,12 @@
 import { StyleSheet } from 'react-native';
 import { WhiteSpace } from '@ant-design/react-native';
 import { Layout } from '../../components/organisms';
-import { FormSchema } from '../../utils/schemas';
 import { emailSettingsFields } from '../../utils/input-fields-details';
 import { Form } from '../../components/molecules/form';
-import { useSelector } from '../../store';
-import { useUpdateProfileMutation } from '../../apis/profile';
-import { AuthStoreType } from '../../utils/types';
-import { useDispatch } from 'react-redux';
-import { setUser } from '../../store/slices';
+import {
+  useGetMyProfileQuery,
+  useUpdateProfileMutation,
+} from '../../apis/profile';
 
 export const NotificationSettings = () => {
   const defaultValues = {
@@ -16,9 +14,9 @@ export const NotificationSettings = () => {
     isNewOfferEmailsEnabled: false,
     isNewsLetterAndHoroscopeEnabled: false,
   };
+  const { data, isFetching: isProfileLoading } = useGetMyProfileQuery({});
 
-  const { user, token } = useSelector(state => state.auth);
-  console.log('token...', token);
+  const { user } = data;
 
   const {
     isEmailNotificationsEnabled,
@@ -26,23 +24,15 @@ export const NotificationSettings = () => {
     isNewsLetterAndHoroscopeEnabled,
   } = user ?? {};
 
-  const dispatch = useDispatch();
-
   const [updateProfile, { isLoading }] = useUpdateProfileMutation();
-
-  const handleChangeNotificationSettings = async (params: FormSchema) => {
-    const { user } = (await updateProfile(params).unwrap()) as AuthStoreType;
-    console.log('user...', user);
-
-    dispatch(setUser({ user }));
-  };
 
   return (
     <Layout
       title="Notification Settings"
       subTitle="Settings"
       description="Even if you turn on all notifications, we may sometimes need to email you important notices about your contact."
-      hasBack={true}>
+      hasBack={true}
+      isLoading={isProfileLoading}>
       <WhiteSpace size="lg" />
       <Form
         fields={emailSettingsFields}
@@ -52,7 +42,7 @@ export const NotificationSettings = () => {
           isNewsLetterAndHoroscopeEnabled,
         }}
         submitButtonLabel="Update"
-        onSubmit={handleChangeNotificationSettings}
+        onSubmit={updateProfile}
         defaultValues={defaultValues}
         isLoading={isLoading}
       />

@@ -19,10 +19,7 @@ export const handleError = (err: ErrorResponse) => {
     },
   };
   Toast.fail({
-    content:
-      errorStatus === 401
-        ? 'Session got expired! Login again to continue'
-        : errorMessage || `Something went wrong! ${errorStatus}`,
+    content: errorMessage || `Something went wrong! (${errorStatus})`,
     duration: 2,
   });
   return error;

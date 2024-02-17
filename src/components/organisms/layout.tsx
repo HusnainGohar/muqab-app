@@ -1,9 +1,9 @@
-import { FC, ReactNode } from 'react';
+import { FC, ReactNode, useEffect } from 'react';
 import { Header } from '../molecules';
 import { StyleSheet, View } from 'react-native';
 import { colors, hp, wp } from '../../utils/constants';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { WhiteSpace } from '@ant-design/react-native';
+import { Toast, WhiteSpace } from '@ant-design/react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Text } from '../atoms';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
@@ -14,6 +14,7 @@ interface LayoutProps {
   description?: string;
   isScrollable?: boolean;
   hasBack?: boolean;
+  isLoading?: boolean;
   children: ReactNode;
 }
 
@@ -22,6 +23,7 @@ export const Layout: FC<LayoutProps> = ({
   subTitle = '',
   description = '',
   isScrollable = true,
+  isLoading = false,
   hasBack = false,
   children,
 }) => {
@@ -31,6 +33,15 @@ export const Layout: FC<LayoutProps> = ({
   const tabBarHeight = isTabScreen ? useBottomTabBarHeight() : bottom + top;
 
   const screenHeight = hp('92%');
+
+  useEffect(() => {
+    let key;
+    if (isLoading) {
+      key = Toast.loading('Loading...');
+    } else {
+      if (!!key) Toast.remove(key);
+    }
+  }, [isLoading]);
 
   const Content = () => (
     <View

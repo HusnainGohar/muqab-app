@@ -83,7 +83,7 @@ export const profileSections: SectionDetails[] = [
         type: 'text',
       },
       {
-        name: 'zipcode',
+        name: 'zipCode',
         label: 'Zipcode',
         placeholder: '50700',
         type: 'text',

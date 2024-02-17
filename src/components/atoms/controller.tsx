@@ -73,7 +73,9 @@ export const Controller: FC<ControllerProps> = ({
                 mode={type}
                 title={props.label}
                 date={value}
-                onChange={date => onChange(dayjs(date).toDate())}
+                onChange={date => {
+                  onChange(dayjs(date).toDate());
+                }}
                 errorMessage={errorMessage}
               />
             );

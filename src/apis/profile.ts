@@ -6,9 +6,28 @@ import {
   ErrorResponse,
   ResponseType,
 } from '../utils/types';
+import { MyProfileQueryKey } from '../utils/constants';
 
 export const profileApis = api.injectEndpoints({
   endpoints: builder => ({
+    getMyProfile: builder.query<any, any>({
+      query: () => {
+        return {
+          url: '/user/profile',
+          method: 'GET',
+        };
+      },
+      transformResponse(baseQueryReturnValue: ResponseType) {
+        const { data } = baseQueryReturnValue;
+        return data;
+      },
+      transformErrorResponse(baseQueryReturnValue: ErrorResponse) {
+        const error = handleError(baseQueryReturnValue);
+        return error;
+      },
+      providesTags: [MyProfileQueryKey],
+    }),
+
     uploadProfilePic: builder.mutation<any, any>({
       query: file => {
         console.log('file...', file);
@@ -35,19 +54,26 @@ export const profileApis = api.injectEndpoints({
         const error = handleError(baseQueryReturnValue);
         return error;
       },
+      invalidatesTags: [MyProfileQueryKey],
     }),
 
     updateProfile: builder.mutation<any, UpdateProfileParams>({
-      query: data => ({
-        url: '/user/updateUserProfile',
-        method: 'PATCH',
-        body: data,
-      }),
+      query: data => {
+        console.log('body...', data);
+
+        return {
+          url: '/user/updateUserProfile',
+          method: 'PATCH',
+          body: data,
+        };
+      },
       transformResponse(baseQueryReturnValue: ResponseType) {
-        const { data, code } = baseQueryReturnValue;
+        const { data, code, message } = baseQueryReturnValue;
+        console.log('data...', data, code);
+
         if (code === 1) {
           Toast.success({
-            content: data?.message,
+            content: message,
             duration: 2,
           });
         }
@@ -57,9 +83,13 @@ export const profileApis = api.injectEndpoints({
         const error = handleError(baseQueryReturnValue);
         return error;
       },
+      invalidatesTags: [MyProfileQueryKey],
     }),
   }),
 });
 
-export const { useUploadProfilePicMutation, useUpdateProfileMutation } =
-  profileApis;
+export const {
+  useGetMyProfileQuery,
+  useUploadProfilePicMutation,
+  useUpdateProfileMutation,
+} = profileApis;

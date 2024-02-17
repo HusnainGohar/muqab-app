@@ -40,7 +40,6 @@ export const Form: FC<FormProps> = ({
   });
 
   const errors = { ...(validationErrors ?? {}), ...(apiErrors ?? {}) };
-  console.log('errors...', errors);
 
   const Fields = ({ fields }: { fields: FieldDetails[] }) => {
     return (

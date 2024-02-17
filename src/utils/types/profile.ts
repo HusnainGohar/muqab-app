@@ -22,6 +22,9 @@ export interface UpdateProfileParams {
   dateOfBirth?: any;
   country?: string;
   zipCode?: string;
+  email?: string;
+  phone?: string;
+  gender?: string;
   isNewsLetterAndHoroscopeEnabled?: boolean;
   isEmailNotificationsEnabled?: boolean;
   isNewOfferEmailsEnabled?: boolean;

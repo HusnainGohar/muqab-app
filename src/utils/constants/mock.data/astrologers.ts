@@ -2,8 +2,12 @@ export const psychicTools = [
   { label: 'Clairvoyance', value: 'clairvoyance', icon: '' },
   { label: 'Tarot', value: 'tarot', icon: '' },
   { label: 'Palm Reading', value: 'palm-reading', icon: '' },
-  { label: 'Coffee Cup Reading', value: 'coffee-cup-reading', icon: '' },
-  { label: 'Dream Interpretation', value: 'dream-interpretation', icon: '' },
+  { label: 'Coffee Cup Reading', value: 'coffee-cup-reading', icon: 'coffee' },
+  {
+    label: 'Dream Interpretation',
+    value: 'dream-interpretation',
+    icon: '',
+  },
 ];
 
 export const psychicTopics = [

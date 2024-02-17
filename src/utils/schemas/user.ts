@@ -109,6 +109,10 @@ export const updateProfileSchema = z
     email: emailValidation,
     phone: phoneValidation,
     dateOfBirth: dateOfBirthValidation,
+    country: z.string(),
+    city: z.string(),
+    gender: z.string(),
+    zipCode: z.string(),
   })
   .required();
 

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Image, StyleSheet, TouchableOpacity } from 'react-native';
 import {
   ActivityIndicator,
@@ -10,9 +9,9 @@ import {
 import { Layout } from '../../components/organisms';
 import { Form } from '../../components/molecules/form';
 import { profileSections } from '../../utils/input-fields-details';
-import { FormSchema, updateProfileSchema } from '../../utils/schemas';
-import { useDispatch } from 'react-redux';
+import { updateProfileSchema } from '../../utils/schemas';
 import {
+  useGetMyProfileQuery,
   useUpdateProfileMutation,
   useUploadProfilePicMutation,
 } from '../../apis/profile';
@@ -20,15 +19,11 @@ import {
   IMAGE_PICKER_OPTIONS,
   IMAGE_PLACEHOLDER,
   colors,
-  hp,
-  wp,
 } from '../../utils/constants';
-import { useSelector } from '../../store';
 import { IconFill } from '@ant-design/icons-react-native';
 import { Text } from '../../components/atoms';
 import ImagePicker from 'react-native-image-crop-picker';
-import { setUser } from '../../store/slices';
-import { AuthStoreType } from '../../utils/types';
+import dayjs from 'dayjs';
 
 export const ProfileSettings = () => {
   const defaultValues = {
@@ -36,13 +31,14 @@ export const ProfileSettings = () => {
     lastName: '',
     email: '',
     phone: '',
-    dateOfBirth: '',
+    dateOfBirth: new Date(),
     country: '',
     city: '',
     zipCode: '',
     gender: '',
   };
-  const { user } = useSelector(state => state.auth);
+  const { data, isFetching } = useGetMyProfileQuery({});
+
   const {
     profilePic = IMAGE_PLACEHOLDER,
     firstName,
@@ -53,17 +49,14 @@ export const ProfileSettings = () => {
     gender,
     country,
     city,
-  } = user ?? {};
+    zipCode,
+  } = data?.user ?? {};
 
   const [updateProfile, { isLoading: isUpateProfileLoading }] =
     useUpdateProfileMutation();
   const [updateProfilePic, { isLoading: isUpateProfilePicLoading }] =
     useUploadProfilePicMutation();
-  const dispatch = useDispatch();
-  const handleUpdateProfile = async (params: FormSchema) => {
-    const { user } = (await updateProfile(params).unwrap()) as AuthStoreType;
-    dispatch(setUser({ user }));
-  };
+
   const onPickerOptionPress = async (option: any) => {
     console.log('selected option', option);
     try {
@@ -74,12 +67,11 @@ export const ProfileSettings = () => {
         cropping: true,
       });
       console.log('pickedImage...', pickedImage);
-      const { user } = (await updateProfilePic({
+      updateProfilePic({
         uri: pickedImage?.path,
         name: `${firstName}_profile_pic`,
         type: pickedImage?.mime, // Adjust the MIME type according to your file type
-      }).unwrap()) as AuthStoreType;
-      dispatch(setUser({ user }));
+      });
     } catch (err) {
       console.log('image picker error...', err);
       Toast.fail({
@@ -88,10 +80,9 @@ export const ProfileSettings = () => {
       });
     }
   };
-  console.log('isUpateProfilePicLoading...', isUpateProfilePicLoading);
 
   return (
-    <Layout title="Profile Settings" hasBack={true}>
+    <Layout title="Profile Settings" hasBack={true} isLoading={isFetching}>
       <WhiteSpace size="md" />
       <View style={{ alignSelf: 'center' }}>
         <Image
@@ -151,13 +142,14 @@ export const ProfileSettings = () => {
           firstName,
           lastName,
           email,
-          dateOfBirth,
+          dateOfBirth: dayjs(dateOfBirth).toDate(),
           phone,
           gender,
           country,
           city,
+          zipCode,
         }}
-        onSubmit={handleUpdateProfile}
+        onSubmit={updateProfile}
         defaultValues={defaultValues}
         submitButtonLabel={'Update'}
         isLoading={isUpateProfileLoading}
