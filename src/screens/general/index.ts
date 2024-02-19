@@ -6,6 +6,7 @@ export * from './shop';
 export * from './profile';
 export * from './profile-settings';
 export * from './notification-settings';
+export * from './gallery-settings';
 export * from './share-app';
 export * from './transaction-history';
 export * from './help-support';

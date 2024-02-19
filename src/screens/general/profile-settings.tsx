@@ -1,7 +1,6 @@
-import { Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 import {
   ActivityIndicator,
-  Popover,
   Toast,
   View,
   WhiteSpace,
@@ -19,11 +18,13 @@ import {
   IMAGE_PICKER_OPTIONS,
   IMAGE_PLACEHOLDER,
   colors,
+  hp,
+  wp,
 } from '../../utils/constants';
 import { IconFill } from '@ant-design/icons-react-native';
-import { Text } from '../../components/atoms';
 import ImagePicker from 'react-native-image-crop-picker';
 import dayjs from 'dayjs';
+import { Popover } from '../../components/molecules';
 
 export const ProfileSettings = () => {
   const defaultValues = {
@@ -57,13 +58,13 @@ export const ProfileSettings = () => {
   const [updateProfilePic, { isLoading: isUpateProfilePicLoading }] =
     useUploadProfilePicMutation();
 
-  const onPickerOptionPress = async (option: any) => {
+  const handleImagePicker = async (option: any) => {
     console.log('selected option', option);
     try {
       //@ts-ignore
       const pickedImage = await ImagePicker?.[option.value]?.({
-        width: 300,
-        height: 400,
+        width: wp('100%'),
+        height: hp('100%'),
         cropping: true,
       });
       console.log('pickedImage...', pickedImage);
@@ -101,35 +102,8 @@ export const ProfileSettings = () => {
         )}
         <Popover
           triggerStyle={styles.imagePicker}
-          placement="auto"
-          useNativeDriver
-          renderOverlayComponent={(nodes: any, onClose) => (
-            <>
-              {nodes?.map((node: any, i: number) => (
-                <TouchableOpacity
-                  key={i}
-                  onPress={() => {
-                    onClose();
-                    onPickerOptionPress(IMAGE_PICKER_OPTIONS[i]);
-                  }}>
-                  {node}
-                </TouchableOpacity>
-              ))}
-            </>
-          )}
-          overlay={IMAGE_PICKER_OPTIONS.map((option, i) => (
-            <Text
-              key={i}
-              type="h4"
-              style={{
-                padding: 10,
-                borderBottomWidth:
-                  IMAGE_PICKER_OPTIONS.length === i + 1 ? 0 : 1 / 2,
-                borderColor: colors.grey,
-              }}>
-              {option.label}
-            </Text>
-          ))}>
+          options={IMAGE_PICKER_OPTIONS}
+          onPickerOptionPress={handleImagePicker}>
           <IconFill name="camera" color={colors.white} size={20} />
         </Popover>
       </View>

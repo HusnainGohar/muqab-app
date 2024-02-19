@@ -25,6 +25,7 @@ import {
   deleteAccountScreen,
   favouriteReadersScreen,
   forgetPasswordScreen,
+  gallerySettingsScreen,
   helpSupportScreen,
   homeScreen,
   hp,
@@ -51,6 +52,7 @@ import {
   Inbox,
   Logout,
   NotificationSettings,
+  GallerySettings,
   PrivacyPolicy,
   Profile,
   ProfileSettings,
@@ -78,6 +80,7 @@ export type StackParamList = {
   [dashboardScreen]: undefined;
   [transactionHistoryScreen]: undefined;
   [profileSettingsScreen]: undefined;
+  [gallerySettingsScreen]: undefined;
   [notificationSettingsScreen]: undefined;
   [shareAppScreen]: undefined;
   [logoutScreen]: undefined;
@@ -197,6 +200,9 @@ export const Routes = () => {
           <Stack.Screen
             name={notificationSettingsScreen}
             component={NotificationSettings}></Stack.Screen>
+          <Stack.Screen
+            name={gallerySettingsScreen}
+            component={GallerySettings}></Stack.Screen>
           <Stack.Screen
             name={changePasswordScreen}
             component={ChangePassword}></Stack.Screen>

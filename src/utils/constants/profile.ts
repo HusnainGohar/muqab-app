@@ -5,6 +5,7 @@ import {
   creditsScreen,
   deleteAccountScreen,
   favouriteReadersScreen,
+  gallerySettingsScreen,
   helpSupportScreen,
   logoutScreen,
   notificationSettingsScreen,
@@ -23,6 +24,8 @@ export const IMAGE_PICKER_OPTIONS = [
   { value: 'openPicker', label: 'Select from Gallery' },
 ];
 
+export const GALLERY_ITEM_OPTIONS = [{ value: 'delete', label: 'Delete' }];
+
 export const profileMenu: ProfileMenu[] = [
   {
     title: 'PROFILE',
@@ -30,6 +33,11 @@ export const profileMenu: ProfileMenu[] = [
       {
         label: 'Profile Settings',
         navigateTo: profileSettingsScreen,
+        icon: 'user',
+      },
+      {
+        label: 'Gallery Settings',
+        navigateTo: gallerySettingsScreen,
         icon: 'user',
       },
       {

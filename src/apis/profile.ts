@@ -85,6 +85,40 @@ export const profileApis = api.injectEndpoints({
       },
       invalidatesTags: [MyProfileQueryKey],
     }),
+
+    uploadUserProfileMedia: builder.mutation<any, any>({
+      query: file => {
+        const formData = new FormData();
+        formData.append('media', file);
+        return {
+          url: '/user/profile/media/upload',
+          method: 'PATCH',
+          body: formData,
+        };
+      },
+      transformErrorResponse(baseQueryReturnValue: ErrorResponse) {
+        const error = handleError(baseQueryReturnValue);
+        return error;
+      },
+      invalidatesTags: [MyProfileQueryKey],
+    }),
+
+    removeUserProfileMedia: builder.mutation<any, any>({
+      query: file => {
+        return {
+          url: '/user/profile/media/remove',
+          method: 'PATCH',
+          body: {
+            media: file,
+          },
+        };
+      },
+      transformErrorResponse(baseQueryReturnValue: ErrorResponse) {
+        const error = handleError(baseQueryReturnValue);
+        return error;
+      },
+      invalidatesTags: [MyProfileQueryKey],
+    }),
   }),
 });
 
@@ -92,4 +126,6 @@ export const {
   useGetMyProfileQuery,
   useUploadProfilePicMutation,
   useUpdateProfileMutation,
+  useUploadUserProfileMediaMutation,
+  useRemoveUserProfileMediaMutation,
 } = profileApis;

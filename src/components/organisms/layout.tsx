@@ -16,6 +16,10 @@ interface LayoutProps {
   hasBack?: boolean;
   isLoading?: boolean;
   children: ReactNode;
+  rightHeader?: ReactNode;
+  onPressRightHeader?: () => void;
+  leftHeader?: ReactNode;
+  onPressLeftHeader?: () => void;
 }
 
 export const Layout: FC<LayoutProps> = ({
@@ -25,6 +29,10 @@ export const Layout: FC<LayoutProps> = ({
   isScrollable = true,
   isLoading = false,
   hasBack = false,
+  rightHeader,
+  onPressRightHeader,
+  leftHeader,
+  onPressLeftHeader,
   children,
 }) => {
   const { top, bottom } = useSafeAreaInsets();
@@ -72,7 +80,14 @@ export const Layout: FC<LayoutProps> = ({
 
   return (
     <View>
-      <Header title={title} hasBack={hasBack} />
+      <Header
+        title={title}
+        hasBack={hasBack}
+        left={leftHeader}
+        onPressLeft={onPressLeftHeader}
+        right={rightHeader}
+        onPressRight={onPressRightHeader}
+      />
       {!isScrollable ? (
         <Content />
       ) : (

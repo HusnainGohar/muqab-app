@@ -1,6 +1,8 @@
 import { ReactNode } from 'react';
 import { ModalProps as AntModalProps } from '@ant-design/react-native/lib/modal/Modal';
 import { User } from './auth';
+import { Option } from './input-fields-details';
+import { StyleProp, ViewStyle } from 'react-native';
 
 export interface ErrorResponse {
   data: {
@@ -44,6 +46,15 @@ export interface ModalProps extends AntModalProps {
   applyButtonText?: string;
   cancelButtonText?: string;
   children?: ReactNode;
+}
+
+export interface PopoverProps {
+  trigger?: ReactNode;
+  triggerStyle?: StyleProp<ViewStyle>;
+  options: Option[];
+  children?: ReactNode;
+  renderItem?: ({ item, index }: { item: Option; index: number }) => ReactNode;
+  onPickerOptionPress?: (item: Option) => void;
 }
 
 export interface SuccessType {

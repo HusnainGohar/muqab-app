@@ -16,7 +16,7 @@ export const NotificationSettings = () => {
   };
   const { data, isFetching: isProfileLoading } = useGetMyProfileQuery({});
 
-  const { user } = data;
+  const { user } = data ?? {};
 
   const {
     isEmailNotificationsEnabled,
