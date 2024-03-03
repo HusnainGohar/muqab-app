@@ -529,9 +529,11 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MUQAB/MUQAB.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HF53C8X25Q;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = MUQAB/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Muqab;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -542,7 +544,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.muqab;
+				PRODUCT_BUNDLE_IDENTIFIER = com.muqab.com.app;
 				PRODUCT_NAME = MUQAB;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -558,8 +560,10 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MUQAB/MUQAB.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HF53C8X25Q;
 				INFOPLIST_FILE = MUQAB/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Muqab;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -570,7 +574,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.muqab;
+				PRODUCT_BUNDLE_IDENTIFIER = com.muqab.com.app;
 				PRODUCT_NAME = MUQAB;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";

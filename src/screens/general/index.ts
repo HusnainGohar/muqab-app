@@ -2,6 +2,7 @@ export * from './privacy-policy';
 export * from './terms-coditions';
 export * from './home';
 export * from './inbox';
+export * from './chat';
 export * from './shop';
 export * from './profile';
 export * from './profile-settings';

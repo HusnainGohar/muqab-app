@@ -19,6 +19,7 @@ import {
   authMainScreen,
   becomeReaderScreen,
   changePasswordScreen,
+  chatScreen,
   colors,
   creditsScreen,
   dashboardScreen,
@@ -50,6 +51,7 @@ import {
   HelpSupport,
   Home,
   Inbox,
+  Chat,
   Logout,
   NotificationSettings,
   GallerySettings,
@@ -78,6 +80,7 @@ export type StackParamList = {
   [privacyPolicyScreen]: undefined;
   [termsConditionsScreen]: undefined;
   [dashboardScreen]: undefined;
+  [chatScreen]: { userId: string };
   [transactionHistoryScreen]: undefined;
   [profileSettingsScreen]: undefined;
   [gallerySettingsScreen]: undefined;
@@ -106,52 +109,54 @@ export type ScreensProps = CompositeScreenProps<
 const Stack = createStackNavigator<StackParamList>();
 const Tab = createBottomTabNavigator<TabParamList>();
 
-const Dashboard = () => (
-  <Tab.Navigator
-    screenOptions={{
-      headerShown: false,
-      tabBarActiveTintColor: colors.primary,
-    }}>
-    <Tab.Screen
-      name={homeScreen}
-      options={{
-        tabBarLabel: 'Home',
-        tabBarIcon: ({ color, size }) => (
-          <Icon name="dashboard" size={size} color={color} />
-        ),
-      }}
-      component={Home}>
-      {/* {Home} */}
-    </Tab.Screen>
-    <Tab.Screen
-      name={shopScreen}
-      options={{
-        tabBarLabel: 'Shop',
-        tabBarIcon: ({ color, size }) => (
-          <Icon name="shopping-cart" size={size} color={color} />
-        ),
-      }}
-      component={Shop}></Tab.Screen>
-    <Tab.Screen
-      name={inboxScreen}
-      options={{
-        tabBarLabel: 'Inbox',
-        tabBarIcon: ({ color, size }) => (
-          <Icon name="message" size={size} color={color} />
-        ),
-      }}
-      component={Inbox}></Tab.Screen>
-    <Tab.Screen
-      name={profileScreen}
-      options={{
-        tabBarLabel: 'Profile',
-        tabBarIcon: ({ color, size }) => (
-          <Icon name="user" size={size} color={color} />
-        ),
-      }}
-      component={Profile}></Tab.Screen>
-  </Tab.Navigator>
-);
+const Dashboard = () => {
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: colors.primary,
+      }}>
+      <Tab.Screen
+        name={homeScreen}
+        options={{
+          tabBarLabel: 'Home',
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="dashboard" size={size} color={color} />
+          ),
+        }}
+        component={Home}>
+        {/* {Home} */}
+      </Tab.Screen>
+      <Tab.Screen
+        name={shopScreen}
+        options={{
+          tabBarLabel: 'Shop',
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="shopping-cart" size={size} color={color} />
+          ),
+        }}
+        component={Shop}></Tab.Screen>
+      <Tab.Screen
+        name={inboxScreen}
+        options={{
+          tabBarLabel: 'Inbox',
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="message" size={size} color={color} />
+          ),
+        }}
+        component={Inbox}></Tab.Screen>
+      <Tab.Screen
+        name={profileScreen}
+        options={{
+          tabBarLabel: 'Profile',
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="user" size={size} color={color} />
+          ),
+        }}
+        component={Profile}></Tab.Screen>
+    </Tab.Navigator>
+  );
+};
 
 export const Routes = () => {
   const auth = useSelector(state => state.auth);
@@ -197,6 +202,7 @@ export const Routes = () => {
           <Stack.Screen
             name={profileSettingsScreen}
             component={ProfileSettings}></Stack.Screen>
+          <Stack.Screen name={chatScreen} component={Chat}></Stack.Screen>
           <Stack.Screen
             name={notificationSettingsScreen}
             component={NotificationSettings}></Stack.Screen>

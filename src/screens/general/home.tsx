@@ -116,6 +116,7 @@ export const Home = () => {
         renderItem={({ item, index }) => (
           <Card
             key={index}
+            id={item?.id}
             name={`${item?.firstName} ${item?.lastName}`}
             description={''}
             imageUrl={item.profilePic}

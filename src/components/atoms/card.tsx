@@ -1,5 +1,11 @@
 import { Flex, View, WhiteSpace, WingBlank } from '@ant-design/react-native';
-import { IMAGE_PLACEHOLDER, colors, hp, wp } from '../../utils/constants';
+import {
+  IMAGE_PLACEHOLDER,
+  chatScreen,
+  colors,
+  hp,
+  wp,
+} from '../../utils/constants';
 import { generalStyles } from '../../utils/styles';
 import { Image } from 'react-native';
 import { Text } from './text';
@@ -8,9 +14,13 @@ import { AirbnbRating } from 'react-native-ratings';
 import { Button } from './button';
 import { ONLINE_STATUS } from '../../utils/enums';
 import { OnlineStatus as OnlineStatusType } from '../../utils/types';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { StackParamList } from '../../routes';
 
 export interface CardProps {
   imageUrl?: string;
+  id?: string;
   name?: string;
   ratings?: number;
   description?: string;
@@ -21,6 +31,7 @@ export interface CardProps {
 
 export const Card = ({
   imageUrl = IMAGE_PLACEHOLDER,
+  id = '',
   name,
   ratings = 0,
   description = '',
@@ -28,6 +39,7 @@ export const Card = ({
   mailRate = 0,
   chatRate = 0,
 }: CardProps) => {
+  const { navigate }: StackNavigationProp<StackParamList> = useNavigation();
   const isOnline = onlineStatus === ONLINE_STATUS.ONLINE;
   const isBusy = onlineStatus === ONLINE_STATUS.BUSY;
   const chatButtonVariant =
@@ -150,6 +162,7 @@ export const Card = ({
                 </Text>
               </>
             }
+            onPress={() => navigate(chatScreen, { userId: id })}
             leftIcon={'message'}
             iconSize={'xs'}
           />
