@@ -3,6 +3,7 @@ export * from './terms-coditions';
 export * from './home';
 export * from './inbox';
 export * from './chat';
+export * from './chat-request';
 export * from './shop';
 export * from './profile';
 export * from './profile-settings';

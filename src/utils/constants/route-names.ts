@@ -12,6 +12,7 @@ export const privacyPolicyScreen = 'PrivacyPolicyScreen';
 export const termsConditionsScreen = 'Terms-conditionsScreen';
 export const dashboardScreen = 'DashboardScreen';
 export const chatScreen = 'ChatScreen';
+export const chatRequestScreen = 'ChatRequestScreen';
 export const profileSettingsScreen = 'ProfileSettingsScreen';
 export const gallerySettingsScreen = 'GallerySettingsScreen';
 export const notificationSettingsScreen = 'NotificationSettingsScreen';

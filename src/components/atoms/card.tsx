@@ -1,6 +1,7 @@
 import { Flex, View, WhiteSpace, WingBlank } from '@ant-design/react-native';
 import {
   IMAGE_PLACEHOLDER,
+  chatRequestScreen,
   chatScreen,
   colors,
   hp,
@@ -162,7 +163,7 @@ export const Card = ({
                 </Text>
               </>
             }
-            onPress={() => navigate(chatScreen, { userId: id })}
+            onPress={() => navigate(chatRequestScreen, { userId: id })}
             leftIcon={'message'}
             iconSize={'xs'}
           />

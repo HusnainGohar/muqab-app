@@ -20,6 +20,7 @@ import {
   becomeReaderScreen,
   changePasswordScreen,
   chatScreen,
+  chatRequestScreen,
   colors,
   creditsScreen,
   dashboardScreen,
@@ -62,6 +63,7 @@ import {
   Shop,
   TermsConditions,
   TransactionHistory,
+  ChatRequest,
 } from '../screens/general';
 
 import { useSelector } from '../store';
@@ -81,6 +83,7 @@ export type StackParamList = {
   [termsConditionsScreen]: undefined;
   [dashboardScreen]: undefined;
   [chatScreen]: { userId: string };
+  [chatRequestScreen]: { userId: string };
   [transactionHistoryScreen]: undefined;
   [profileSettingsScreen]: undefined;
   [gallerySettingsScreen]: undefined;
@@ -203,6 +206,10 @@ export const Routes = () => {
             name={profileSettingsScreen}
             component={ProfileSettings}></Stack.Screen>
           <Stack.Screen name={chatScreen} component={Chat}></Stack.Screen>
+          <Stack.Screen
+            name={chatRequestScreen}
+            options={{ presentation: 'transparentModal' }}
+            component={ChatRequest}></Stack.Screen>
           <Stack.Screen
             name={notificationSettingsScreen}
             component={NotificationSettings}></Stack.Screen>

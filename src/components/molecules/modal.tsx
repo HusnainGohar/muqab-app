@@ -26,7 +26,7 @@ export const Modal = ({
       animated={animated}
       animateAppear={animateAppear}
       animationType={animationType}
-      title={<Text type="h2">{title}</Text>}
+      title={!!title ? <Text type="h2">{title}</Text> : undefined}
       transparent={transparent}
       onClose={onCancel}
       maskClosable={maskClosable}
@@ -35,27 +35,35 @@ export const Modal = ({
         innerContainer: styles.innerContainer,
         body: styles.body,
       }}>
-      <WhiteSpace size="lg" />
-      <Text style={styles.descriptionText}>{description}</Text>
-      <WhiteSpace size="lg" />
-      {children}
-      <WhiteSpace size="md" />
-      {!!onApply && (
-        <Button
-          style={styles.button}
-          title={applyButtonText}
-          onPress={onApply}
-          isLoading={isLoading}
-        />
+      {!!description && (
+        <>
+          <WhiteSpace size="lg" />
+          <Text style={styles.descriptionText}>{description}</Text>
+          <WhiteSpace size="lg" />
+        </>
       )}
-      <WhiteSpace size="md" />
+      {children}
+      {!!onApply && (
+        <>
+          <WhiteSpace size="md" />
+          <Button
+            style={styles.button}
+            title={applyButtonText}
+            onPress={onApply}
+            isLoading={isLoading}
+          />
+        </>
+      )}
       {!!onCancel && (
-        <Button
-          variant="ghost"
-          style={styles.button}
-          title={cancelButtonText}
-          onPress={onCancel}
-        />
+        <>
+          <WhiteSpace size="md" />
+          <Button
+            variant="ghost"
+            style={styles.button}
+            title={cancelButtonText}
+            onPress={onCancel}
+          />
+        </>
       )}
     </AntModal>
   );

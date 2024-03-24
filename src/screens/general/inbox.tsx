@@ -21,14 +21,15 @@ export const Inbox = () => {
   useEffect(() => {
     if (!currentUserId) return;
     // Listen for incoming messages
-    socket.on(`broadcast_${currentUserId}`, message => {
+    const currentUserBroadcast = `broadcast_${currentUserId}`;
+    socket.on(currentUserBroadcast, message => {
       console.log('new message...', message);
       setChats(prevChats => [...prevChats, message?.user?._id]);
     });
 
     return () => {
       // Disconnect the socket when component unmounts
-      socket.disconnect();
+      socket.off(currentUserBroadcast);
     };
   }, [currentUserId]);
   const renderItem = ({ item, index }: { item: string; index: number }) => (
